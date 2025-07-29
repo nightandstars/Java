@@ -9,5 +9,6 @@ public class Wizard extends Character{
         Random randomNumber = new Random();
         setAttack(randomNumber.nextInt(8,15)+1);
         setHealth(randomNumber.nextInt(3,6)+1);
+        setType("Wizard");
     }
 }

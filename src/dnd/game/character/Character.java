@@ -6,6 +6,7 @@ public class Character {
     private int health;
     private int attack;
     private String equipment;
+    private String type;
 
     public int getHealth(){
         return health;
@@ -35,4 +36,15 @@ public class Character {
         this.name = name;
     }
 
+    public void setType(String type){
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String toString(){
+        return name + " is a " + type + " with " + health + " health and an attack of " + attack;
+    }
 }

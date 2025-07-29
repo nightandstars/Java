@@ -9,5 +9,6 @@ public class Warrior extends Character{
         Random randomNumber = new Random();
         setAttack(randomNumber.nextInt(5,10)+1);
         setHealth(randomNumber.nextInt(5,10)+1);
+        setType("Warrior");
     }
 }
