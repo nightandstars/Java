@@ -3,7 +3,10 @@ package dnd.game;
 import dnd.game.board.Board;
 
 public class Main {
-    //executes the game
+    /**
+     * allows to run the game
+     * @param args needed to run main
+     */
     public static void main(String[] args) {
        Menu mainMenu = new Menu();
        mainMenu.startingMenu();

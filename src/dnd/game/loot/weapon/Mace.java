@@ -1,4 +1,4 @@
-package dnd.game.loot.weapons;
+package dnd.game.loot.weapon;
 
 public class Mace extends Weapon {
     String name = "Mace";

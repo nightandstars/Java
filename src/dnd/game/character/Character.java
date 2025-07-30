@@ -1,11 +1,14 @@
 package dnd.game.character;
-import java.util.Random;
+import dnd.game.loot.Loot;
 
-public class Character {
+/**
+ * Represents the main characteristics of a character in the game
+ */
+public abstract class Character {
     private String name;
     private int health;
     private int attack;
-    private String equipment;
+    private Loot equipment;
     private String type;
 
     public int getHealth(){
@@ -16,7 +19,7 @@ public class Character {
         return attack;
     }
 
-    public String getEquipment() {
+    public Loot getEquipment() {
         return equipment;
     }
 
@@ -28,7 +31,7 @@ public class Character {
         this.health = health;
     }
 
-    public void setEquipment(String equipment) {
+    public void setEquipment(Loot equipment) {
         this.equipment = equipment;
     }
 
@@ -45,6 +48,6 @@ public class Character {
     }
 
     public String toString(){
-        return name + " is a " + type + " with " + health + " health and an attack of " + attack;
+        return name + " is a " + type + " with " + health + " health and " + attack + " attack";
     }
 }

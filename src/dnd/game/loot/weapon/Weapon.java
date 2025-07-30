@@ -1,15 +1,17 @@
-package dnd.game.loot.spells;
+package dnd.game.loot.weapon;
 
-public class Spell {
+import dnd.game.loot.Loot;
+
+public abstract class Weapon extends Loot {
     private String name;
     private int attack;
 
-    public int getAttack() {
-        return attack;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public int getAttack() {
+        return attack;
     }
 
     public void setName(String name) {

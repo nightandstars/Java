@@ -4,7 +4,10 @@ import java.util.Random;
 
 public class Dice {
 
-    //rolls a D6 at random
+    /**
+     * Rolls a D6 and get a random number each time
+     * @return int value of the die
+     */
     public int rollDice(){
         Random diceRoll = new Random();
         int diceValue = (diceRoll.nextInt(6) + 1);

@@ -4,6 +4,10 @@ import java.util.Random;
 
 public class Wizard extends Character{
 
+    /**
+     * create a wizard based on a set name, attack and health
+     * @param name defines the name of the wizard
+     */
     public Wizard(String name){
         setName(name);
         Random randomNumber = new Random();

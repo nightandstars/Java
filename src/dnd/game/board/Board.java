@@ -5,6 +5,9 @@ import dnd.game.dice.Dice;
 
 import java.util.ArrayList;
 
+/**
+ * Represents the board on which the game will be played
+ */
 public class Board {
 
     private ArrayList<Integer> board = new ArrayList<>(64);
@@ -16,6 +19,10 @@ public class Board {
         }
     }
 
+    /**
+     * Creates a "board" (arraylist) with 64 cells
+     * @return array list with 64 indexes and values from 1-64
+     */
     private ArrayList<Integer> createBoard(){
         for(int i = 1; i < 65; i++){
             board.add(i);
@@ -23,7 +30,9 @@ public class Board {
         return board;
     }
 
-    //rolls the dice and moves up on the board until the end of game
+    /**
+     * Instantiates a die, starts the player on cell 1, rolls the dice and move the player on the board until they reach cell 64 and win the game, prints the current cell that the player is on
+     */
     public void moveOnBoard(){
         Dice dice = new Dice();
         int currentCell = 1;

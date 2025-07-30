@@ -4,6 +4,10 @@ import java.util.Random;
 
 public class Warrior extends Character{
 
+    /**
+     * creates a warrior with a set name, attack and health
+     * @param name the name of the character
+     */
     public Warrior(String name){
         setName(name);
         Random randomNumber = new Random();

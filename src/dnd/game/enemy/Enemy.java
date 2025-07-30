@@ -1,6 +1,6 @@
-package dnd.game.ennemies;
+package dnd.game.enemy;
 
-public class Ennemy {
+public class Enemy {
     private String name;
     private int attack;
     private int health;
