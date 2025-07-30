@@ -2,6 +2,7 @@ package dnd.game.board;
 
 import dnd.game.Menu;
 import dnd.game.dice.Dice;
+import dnd.game.exception.OutOfBoardException;
 
 import java.util.ArrayList;
 
@@ -39,14 +40,14 @@ public class Board {
         while(currentCell < 64) {
             int moveUp = dice.rollDice();
             currentCell += moveUp;
-            if(currentCell >= 64){
-                currentCell = 64;
+            if(currentCell > 64) {
+                throw new OutOfBoardException();
+            } else if (currentCell == 64) {
                 System.out.println("You are on cell " + currentCell);
                 Menu endMenu = new Menu();
                 endMenu.endOfGameChoice();
             }
             System.out.println("You are on cell " + currentCell);
-
         }
     }
 
