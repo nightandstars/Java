@@ -1,6 +1,6 @@
 package dnd.game;
 
-import dnd.game.board.Board;
+
 import dnd.game.character.Character;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
@@ -123,8 +123,8 @@ public class Menu {
         myScanner.nextLine();
         switch (choice) {
             case 1:
-                Board board = new Board();
-                board.moveOnBoard();
+                Game game = new Game();
+                game.startGame();
                 break;
             case 2:
                 this.characterInfo();

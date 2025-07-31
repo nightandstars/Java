@@ -10,9 +10,17 @@ public abstract class Character {
     private int attack;
     private Loot equipment;
     private String type;
+    private int maxHealth;
 
     public int getHealth(){
         return health;
+    }
+    public void setMaxHealth(int maxHealth){
+        this.maxHealth = maxHealth;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public int getAttack(){

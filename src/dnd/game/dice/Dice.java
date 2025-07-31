@@ -10,7 +10,7 @@ public class Dice {
      */
     public int rollDice(){
         Random diceRoll = new Random();
-        int diceValue = (diceRoll.nextInt(6) + 1);
+        int diceValue = diceRoll.nextInt(1,7);
         System.out.println("You rolled a " + diceValue);
         return diceValue;
     }
