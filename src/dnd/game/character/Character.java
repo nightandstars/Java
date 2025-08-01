@@ -11,12 +11,23 @@ public abstract class Character {
     private Loot equipment;
     private String type;
     private int maxHealth;
+    private int id;
 
     public int getHealth(){
         return health;
     }
-    public void setMaxHealth(int maxHealth){
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int setMaxHealth(int maxHealth){
         this.maxHealth = maxHealth;
+        return maxHealth;
     }
 
     public int getMaxHealth() {
@@ -54,6 +65,7 @@ public abstract class Character {
     public String getType() {
         return type;
     }
+
 
     public String toString(){
         return name + " is a " + type + " with " + health + " health and " + attack + " attack";

@@ -4,6 +4,7 @@ package dnd.game;
 import dnd.game.character.Character;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
+import dnd.game.db.MySQL;
 
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class Menu {
 
     Scanner myScanner = new Scanner(System.in);
     Character chosenCharacter = null;
+    MySQL database = new MySQL();
 
     /**
      * This lets the player create a new character or exit the game and proceeds to chosenCharacterClass()
@@ -48,9 +50,11 @@ public class Menu {
         switch (characterType) {
             case 1:
                 this.chosenCharacter = new Wizard(characterName);
+                database.createHero(this.chosenCharacter, characterName);
                 break;
             case 2:
                 this.chosenCharacter = new Warrior(characterName);
+                database.createHero(this.chosenCharacter, characterName);
                 break;
             case 3:
                 this.quitGame();
@@ -80,6 +84,7 @@ public class Menu {
                 System.out.println("What is the new name of your character?");
                 String newName = myScanner.nextLine();
                 chosenCharacter.setName(newName);
+                database.editHero(this.chosenCharacter, newName);
                 this.characterInfo();
                 break;
             case 3:
