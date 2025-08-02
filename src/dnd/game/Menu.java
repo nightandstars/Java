@@ -4,7 +4,7 @@ package dnd.game;
 import dnd.game.character.Character;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
-import dnd.game.db.MySQL;
+import dnd.game.db.MySQLHero;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ public class Menu {
 
     Scanner myScanner = new Scanner(System.in);
     Character chosenCharacter = null;
-    MySQL database = new MySQL();
+    MySQLHero database = new MySQLHero();
 
     /**
      * This lets the player create a new character or exit the game and proceeds to chosenCharacterClass()
@@ -50,11 +50,11 @@ public class Menu {
         switch (characterType) {
             case 1:
                 this.chosenCharacter = new Wizard(characterName);
-                database.createHero(this.chosenCharacter, characterName);
+                //database.createHero(this.chosenCharacter, characterName);
                 break;
             case 2:
                 this.chosenCharacter = new Warrior(characterName);
-                database.createHero(this.chosenCharacter, characterName);
+                //database.createHero(this.chosenCharacter, characterName);
                 break;
             case 3:
                 this.quitGame();
@@ -120,21 +120,26 @@ public class Menu {
      * Starts the game, initializes the board and moves the character on the board until end of game
      */
     private void startGame() {
-        System.out.println("Do you want to start the game?");
-        System.out.println("1 - Yes");
-        System.out.println("2 - No");
-        System.out.println("3 - Exit");
+        Game game = new Game();
+        System.out.println("Do you want to start a new game or load an existing one?");
+        System.out.println("1 - Start a new game");
+        System.out.println("2 - Load an existing one");
+        System.out.println("3 - Go back");
+        System.out.println("4 - Exit");
         int choice = myScanner.nextInt();
         myScanner.nextLine();
         switch (choice) {
             case 1:
-                Game game = new Game();
-                game.startGame();
+                game.startNewGame();
                 break;
             case 2:
+                System.out.println("What is the id of the board you wish to load?");
+                int boardId = myScanner.nextInt();
+                game.loadPreviousGame(boardId);
+            case 3:
                 this.characterInfo();
                 break;
-            case 3:
+            case 4:
                 this.quitGame();
                 break;
         }

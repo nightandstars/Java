@@ -1,10 +1,9 @@
 package dnd.game.db;
 
 import dnd.game.character.Character;
-
 import java.sql.*;
 
-public class MySQL {
+public class MySQLHero {
     private String url = "jdbc:mysql://localhost:3306/dnd?user=root&password=MorganE1740*";
     Statement query = null;
     ResultSet result = null;
@@ -12,10 +11,9 @@ public class MySQL {
     /**
      * Connects to the database
      */
-    public MySQL(){
+    public MySQLHero(){
         try{
             connection = DriverManager.getConnection(this.url);
-            System.out.println("Connected to Database");
         } catch (SQLException e) {
             System.out.println("Could not connect to Database");
             e.printStackTrace();

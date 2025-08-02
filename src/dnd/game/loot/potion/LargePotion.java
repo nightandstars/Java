@@ -5,6 +5,7 @@ import dnd.game.loot.Loot;
 public class LargePotion extends Loot {
     String name = "Large Potion";
     int heal = 5;
+    String type = "LargePotion";
 
     @Override
     public int getAttack() {

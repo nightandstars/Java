@@ -1,24 +1,18 @@
 package dnd.game.board;
 
+import com.google.gson.*;
 import dnd.game.Game;
 import dnd.game.Menu;
-import dnd.game.board.cell.Cell;
-import dnd.game.board.cell.EnemyCell;
-import dnd.game.board.cell.LootCell;
+import dnd.game.board.cell.*;
+import dnd.game.db.MySQLBoard;
 import dnd.game.dice.Dice;
-import dnd.game.enemy.Dragon;
-import dnd.game.enemy.Goblin;
-import dnd.game.enemy.Sorcerer;
-import dnd.game.exception.OutOfBoardException;
-import dnd.game.board.cell.EmptyCell;
-import dnd.game.loot.potion.LargePotion;
-import dnd.game.loot.potion.SmallPotion;
-import dnd.game.loot.spell.Fireball;
-import dnd.game.loot.spell.Lightning;
-import dnd.game.loot.weapon.Mace;
-import dnd.game.loot.weapon.Sword;
+import dnd.game.enemy.*;
+import dnd.game.loot.potion.*;
+import dnd.game.loot.spell.*;
+import dnd.game.loot.weapon.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,13 +21,18 @@ import java.util.Random;
 public class Board {
 
     private ArrayList<Cell> board = new ArrayList<>(64);
+    MySQLBoard databaseBoard = new MySQLBoard();
+    Gson gson = new Gson();
 
     public void getBoard() {
         board = this.createBoard();
+        List<String> jsonBoard = boardToJson();
+        databaseBoard.createBoard(jsonBoard);
+        moveOnBoard();
     }
 
     /**
-     * Creates a "board" (arraylist) with 64 cells
+     * Creates a "board" (arraylist) with 64 cells, each containing at random an empty cell, an enemy or loot
      * @return array list with 64 indexes and values from 1-64
      */
     private ArrayList<Cell> createBoard(){
@@ -76,6 +75,24 @@ public class Board {
         return board;
     }
 
+    public List<String> boardToJson(){
+        List<String> jsonList = new ArrayList<>();
+        for (Cell cell : this.board) {
+            String json = gson.toJson(cell);
+            jsonList.add(json);
+        }
+        return jsonList;
+    }
+
+    public void loadBoardFromJson(List<String> jsonList){
+        ArrayList<Cell> activeBoard = new ArrayList<>();
+        for(String json : jsonList){
+            Cell cell = databaseBoard.getCellType(json);
+            activeBoard.add(cell);
+        }
+        this.board = activeBoard;
+    }
+
     /**
      * Instantiates a die, starts the player on cell 1, rolls the dice and move the player on the board until they reach cell 64 and win the game, prints the current cell that the player is on
      */
@@ -87,7 +104,7 @@ public class Board {
             int moveUp = dice.rollDice();
             playerPosition += moveUp;
             if(playerPosition > 64) {
-                throw new OutOfBoardException();
+                playerPosition = 64;
             } else if (playerPosition == 64) {
                 System.out.println("You are on cell " + playerPosition);
                 Menu endMenu = new Menu();

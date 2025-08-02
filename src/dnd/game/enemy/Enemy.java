@@ -1,14 +1,38 @@
 package dnd.game.enemy;
 
-public abstract class Enemy {
+public class Enemy {
+    private String name;
+    private int attack;
+    private int health;
+    private String type;
 
-    public abstract String getName();
+    public Enemy(String name, int attack, int health, String type){
+        this.name = name;
+        this.attack = attack;
+        this.health = health;
+        this.type = type;
+    }
+    public String getName(){
+        return name;
+    };
 
-    public abstract int getAttack();
+    public int getAttack(){
+        return attack;
+    };
 
-    public abstract int getHealth();
+    public int getHealth(){
+        return health;
+    };
 
-    public abstract void setHealth(int health);
+    public void setHealth(int health){
+        this.health = health;
+    };
 
-    public abstract String getDescription();
+    public String getDescription(){
+        return "Oh no, an enemy!";
+    };
+
+    public String getType() {
+        return type;
+    }
 }

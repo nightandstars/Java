@@ -5,6 +5,7 @@ import dnd.game.loot.Loot;
 public class Mace extends Loot {
     String name = "Mace";
     int attack = 3;
+    String type = "MaceWeapon";
 
     @Override
     public int getAttack() {

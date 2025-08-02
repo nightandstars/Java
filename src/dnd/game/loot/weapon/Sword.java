@@ -5,6 +5,7 @@ import dnd.game.loot.Loot;
 public class Sword extends Loot {
     String name = "Sword";
     int attack = 5;
+    String type = "SwordWeapon";
 
     @Override
     public int getAttack() {

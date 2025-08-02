@@ -5,6 +5,7 @@ import dnd.game.loot.Loot;
 public class Lightning extends Loot {
     String name = "Lightning";
     int attack = 2;
+    String type = "LightningSpell";
 
     @Override
     public int getAttack() {

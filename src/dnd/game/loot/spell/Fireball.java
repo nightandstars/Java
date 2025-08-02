@@ -5,6 +5,7 @@ import dnd.game.loot.Loot;
 public class Fireball extends Loot {
     String name = "Fireball";
     int attack = 7;
+    String type = "FireballSpell";
 
     @Override
     public int getAttack() {

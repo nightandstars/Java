@@ -1,27 +1,8 @@
 package dnd.game.enemy;
 
 public class Sorcerer extends Enemy {
-    String name = "Sorcerer";
-    int attack = 2;
-    int health = 9;
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getAttack() {
-        return attack;
-    }
-
-    @Override
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
+    public Sorcerer(){
+        super("Sorcerer", 2,9, "Sorcerer");
     }
 
     @Override
