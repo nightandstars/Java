@@ -115,4 +115,5 @@ public class MySQLBoard {
             return gson.fromJson(json, EmptyCell.class);
         }
     }
+
 }

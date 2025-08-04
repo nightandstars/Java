@@ -4,6 +4,7 @@ import com.google.gson.*;
 import dnd.game.Game;
 import dnd.game.Menu;
 import dnd.game.board.cell.*;
+import dnd.game.character.Character;
 import dnd.game.db.MySQLBoard;
 import dnd.game.dice.Dice;
 import dnd.game.enemy.*;
@@ -24,11 +25,11 @@ public class Board {
     MySQLBoard databaseBoard = new MySQLBoard();
     Gson gson = new Gson();
 
-    public void getBoard() {
+    public void getBoard(dnd.game.character.Character chosenCharacter) {
         board = this.createBoard();
         List<String> jsonBoard = boardToJson();
         databaseBoard.createBoard(jsonBoard);
-        moveOnBoard();
+        moveOnBoard(chosenCharacter);
     }
 
     /**
@@ -96,7 +97,7 @@ public class Board {
     /**
      * Instantiates a die, starts the player on cell 1, rolls the dice and move the player on the board until they reach cell 64 and win the game, prints the current cell that the player is on
      */
-    public void moveOnBoard(){
+    public void moveOnBoard(Character chosenCharacter){
         Dice dice = new Dice();
         Game player = new Game();
         int playerPosition = player.getPlayerPosition();
@@ -112,6 +113,7 @@ public class Board {
             }else {
                 Cell currentPosition = board.get((playerPosition - 1));
                 currentPosition.getDescription();
+                currentPosition.interact(chosenCharacter);
             }
             System.out.println("You are on cell " + playerPosition);
         }

@@ -15,5 +15,6 @@ public class Warrior extends Character{
         int startingHealth = setMaxHealth(randomNumber.nextInt(5,10)+1);
         setHealth(startingHealth);
         setType("Warrior");
+        setMaxAttack(10);
     }
 }

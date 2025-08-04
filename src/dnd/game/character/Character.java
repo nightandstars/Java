@@ -12,6 +12,7 @@ public abstract class Character {
     private String type;
     private int maxHealth;
     private int id;
+    private int maxAttack;
 
     public int getHealth(){
         return health;
@@ -38,12 +39,28 @@ public abstract class Character {
         return attack;
     }
 
-    public Loot getEquipment() {
-        return equipment;
-    }
-
     public void setAttack(int attack) {
         this.attack = attack;
+    }
+    public void heal(){
+        int newHealth = equipment.getHeal();
+        if((this.health + newHealth) >= maxHealth){
+            this.health = maxHealth;
+            System.out.println("You're already full health");
+        }else {
+            this.health += newHealth;
+            System.out.println("You now have " + health + " health");
+        }
+    }
+    public void upgradeAttack(){
+        int newAttack = equipment.getAttack();
+        if((this.attack + newAttack) >= maxAttack){
+            this.attack = maxAttack;
+            System.out.println("You're already too powerful");
+        }else{
+            System.out.println("Your new attack is " + attack);
+            this.attack += newAttack;
+        }
     }
 
     public void setHealth(int health) {
@@ -66,6 +83,9 @@ public abstract class Character {
         return type;
     }
 
+    public void setMaxAttack(int maxAttack) {
+        this.maxAttack = maxAttack;
+    }
 
     public String toString(){
         return name + " is a " + type + " with " + health + " health and " + attack + " attack";

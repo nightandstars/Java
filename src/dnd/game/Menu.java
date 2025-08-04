@@ -112,8 +112,7 @@ public class Menu {
      */
     private String chosenCharacterName() {
         System.out.println("What is their name?");
-        String characterName = myScanner.nextLine();
-        return characterName;
+        return myScanner.nextLine();
     }
 
     /**
@@ -130,12 +129,12 @@ public class Menu {
         myScanner.nextLine();
         switch (choice) {
             case 1:
-                game.startNewGame();
+                game.startNewGame(this.chosenCharacter);
                 break;
             case 2:
                 System.out.println("What is the id of the board you wish to load?");
                 int boardId = myScanner.nextInt();
-                game.loadPreviousGame(boardId);
+                game.loadPreviousGame(boardId, this.chosenCharacter);
             case 3:
                 this.characterInfo();
                 break;

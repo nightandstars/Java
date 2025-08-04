@@ -1,6 +1,7 @@
 package dnd.game;
 
 import dnd.game.board.Board;
+import dnd.game.character.Character;
 import dnd.game.db.MySQLBoard;
 
 import java.util.List;
@@ -15,13 +16,13 @@ public class Game {
         return playerPosition;
     }
 
-    public void startNewGame(){
-        board.getBoard();
+    public void startNewGame(Character chosenCharacter){
+        board.getBoard(chosenCharacter);
     }
 
-    public void loadPreviousGame(int boardId){
+    public void loadPreviousGame(int boardId, Character chosenCharacter){
         List<String> previousBoard = database.getBoardById(boardId);
         board.loadBoardFromJson(previousBoard);
-        board.moveOnBoard();
+        board.moveOnBoard(chosenCharacter);
     }
 }
