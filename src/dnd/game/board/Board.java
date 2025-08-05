@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Represents the board on which the game will be played
  */
-public class Board {
+public class Board implements Dice {
 
     private List<Cell> board = new ArrayList<>(64);
     MySQLBoard databaseBoard = new MySQLBoard();
@@ -96,10 +96,9 @@ public class Board {
      * Instantiates a die, starts the player on cell 1, rolls the dice and move the player on the board until they reach cell 64 and win the game, prints the current cell that the player is on
      */
     public void moveOnBoard(Character chosenCharacter){
-        Dice dice = new Dice();
         Menu endMenu = new Menu();
         while(playerPosition < board.size()) {
-            int moveUp = dice.rollD6();
+            int moveUp = rollD6();
             playerPosition += moveUp;
             if(playerPosition > board.size()) {
                 playerPosition = board.size();
@@ -126,4 +125,19 @@ public class Board {
         }
     }
 
+    @Override
+    public int rollD6() {
+        Random diceRoll = new Random();
+        int diceValue = diceRoll.nextInt(1,7);
+        System.out.println("You rolled a " + diceValue);
+        return diceValue;
+    }
+
+    @Override
+    public int rollD20() {
+        Random diceRoll = new Random();
+        int diceValue = diceRoll.nextInt(1,21);
+        System.out.println("You rolled a " + diceValue);
+        return diceValue;
+    }
 }

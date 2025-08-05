@@ -6,7 +6,9 @@ import dnd.game.character.Character;
 import dnd.game.dice.Dice;
 import dnd.game.enemy.Enemy;
 
-public class EnemyCell extends Cell{
+import java.util.Random;
+
+public class EnemyCell extends Cell implements Dice{
     private Enemy enemy;
     private String type = "enemy";
 
@@ -47,12 +49,11 @@ public class EnemyCell extends Cell{
                     Menu.showMessage("You have " + character.getHealth() + " health");
                     Menu.showMessage("The enemy has " + enemy.getHealth() + " health");
                     int choice = menu.fightingMenu();
-                    Dice dice = new Dice();
                     switch (choice) {
                         case 1:
                             break;
                         case 2:
-                            int moveBack = dice.rollD6();
+                            int moveBack = rollD6();
                             board.goBackOnBoard(moveBack);
                             Menu.showMessage("You ran back " + moveBack + " cells");
                             isRunning = true;
@@ -63,4 +64,16 @@ public class EnemyCell extends Cell{
         }
     }
 
+    @Override
+    public int rollD6() {
+        Random diceRoll = new Random();
+        int diceValue = diceRoll.nextInt(1,7);
+        System.out.println("You rolled a " + diceValue);
+        return diceValue;
+    }
+
+    @Override
+    public int rollD20() {
+        return 0;
+    }
 }
