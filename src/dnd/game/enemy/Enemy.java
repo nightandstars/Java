@@ -5,16 +5,26 @@ public class Enemy {
     private int attack;
     private int health;
     private String type;
+    private int armorClass;
 
-    public Enemy(String name, int attack, int health, String type){
+    public Enemy(String name, int attack, int health, String type, int armorClass){
         this.name = name;
         this.attack = attack;
         this.health = health;
         this.type = type;
+        this.armorClass = armorClass;
     }
     public String getName(){
         return name;
     };
+
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
+    }
+
+    public int getArmorClass() {
+        return armorClass;
+    }
 
     public int getAttack(){
         return attack;

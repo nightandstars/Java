@@ -16,6 +16,7 @@ public class Warrior extends Character{
         setHealth(startingHealth);
         setType("Warrior");
         setMaxAttack(10);
+        setArmorClass(12);
     }
 
     public Warrior(String name, int attack, int health){
@@ -25,5 +26,6 @@ public class Warrior extends Character{
         setHealth(health);
         setType("Warrior");
         setMaxAttack(10);
+        setArmorClass(12);
     }
 }

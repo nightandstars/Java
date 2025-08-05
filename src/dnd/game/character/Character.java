@@ -14,9 +14,18 @@ public abstract class Character {
     private int maxHealth;
     private int id;
     private int maxAttack;
+    private int armorClass;
 
     public int getHealth(){
         return health;
+    }
+
+    public int getArmorClass(){
+        return armorClass;
+    }
+
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
     }
 
     public int getId() {

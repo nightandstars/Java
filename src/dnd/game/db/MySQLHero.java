@@ -88,13 +88,15 @@ public class MySQLHero {
         String type = character.getType();
         int health = character.getHealth();
         int attack = character.getAttack();
+        int armorClass = character.getArmorClass();
         try{
-            String sql = "INSERT INTO Characters (name, type, health, attack) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO Characters (name, type, health, attack, armor_class) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement fill = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             fill.setString(1, name);
             fill.setString(2, type);
             fill.setInt(3, health);
             fill.setInt(4, attack);
+            fill.setInt(4, armorClass);
             fill.executeUpdate();
 
             ResultSet result = fill.getGeneratedKeys();
@@ -147,15 +149,11 @@ public class MySQLHero {
                 int attack = result.getInt("attack");
 //                int offensiveLootId = result.getInt("offensive_loot_id");
 //                int defensiveLootId = result.getInt("defensive_loot_id");
-                Character character = null;
-                switch(type){
-                    case "Warrior":
-                        character = new Warrior(name, attack, health);
-                        break;
-                    case "Wizard":
-                        character = new Wizard(name, attack, health);
-                        break;
-                }
+                Character character = switch (type) {
+                    case "Warrior" -> new Warrior(name, attack, health);
+                    case "Wizard" -> new Wizard(name, attack, health);
+                    default -> null;
+                };
                 menu.setChosenCharacter(character);
             }
             result.close();
