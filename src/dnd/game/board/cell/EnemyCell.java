@@ -23,7 +23,7 @@ public class EnemyCell extends Cell implements Dice{
 
     @Override
     public void interact(Character character, int playerPosition, Board board) {
-        //implement AC, critical 1/20
+        //critical 1/20
         boolean isRunning = false;
         while ((character.getHealth() > 0 || enemy.getHealth() > 0) && !isRunning) {
             characterIsAttacking(character);
@@ -36,7 +36,7 @@ public class EnemyCell extends Cell implements Dice{
         }
     }
 
-    public void characterIsAttacking(Character character) {
+    private void characterIsAttacking(Character character) {
         int damage = character.getAttack();
         if (isBeatingArmorClass(character, "character")) {
             Menu.showMessage("You dealt " + damage + " damage");
@@ -48,7 +48,7 @@ public class EnemyCell extends Cell implements Dice{
         }
     }
 
-    public boolean enemyIsAttacking(Character character, boolean isRunning, Board board) {
+    private boolean enemyIsAttacking(Character character, boolean isRunning, Board board) {
         Menu menu = new Menu();
         int damage2 = enemy.getAttack();
         if (isBeatingArmorClass(character, "enemy")) {
@@ -78,7 +78,7 @@ public class EnemyCell extends Cell implements Dice{
             return isRunning;
         }
 
-    public boolean isBeatingArmorClass(Character character, String whoIsAttacking){
+    private boolean isBeatingArmorClass(Character character, String whoIsAttacking){
         boolean ACBeaten = false;
         int characterAC = character.getArmorClass();
         int enemyAC = enemy.getArmorClass();
@@ -112,4 +112,19 @@ public class EnemyCell extends Cell implements Dice{
         Random diceRoll = new Random();
         return diceRoll.nextInt(1,21);
     }
+
+    private int isCritical(int diceValue, int damage){
+        // you're trying to figure out how to return damage *2 since damage and diceValue
+        // come from two different methods, dicevalue is beatenAC, damage is charac/enemy attacking
+        switch (diceValue){
+            case 1:
+                damage = 0;
+                break;
+            case 20:
+                 damage *= 2;
+                break;
+        }
+        return damage;
+    }
+
 }
