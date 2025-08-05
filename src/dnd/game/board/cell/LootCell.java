@@ -1,5 +1,6 @@
 package dnd.game.board.cell;
 
+import dnd.game.Menu;
 import dnd.game.character.Character;
 import dnd.game.loot.Loot;
 import dnd.game.loot.potion.LargePotion;
@@ -11,6 +12,7 @@ import dnd.game.loot.weapon.Sword;
 
 public class LootCell extends Cell {
     private Loot loot;
+    private String type = "loot";
 
     public LootCell(Loot loot) {
         this.loot = loot;
@@ -22,7 +24,7 @@ public class LootCell extends Cell {
     }
 
     @Override
-    public void interact(Character character) {
+    public void interact(Character character, int playerPosition) {
         if (character.getType().equals("Warrior")) {
             if (loot instanceof Mace || loot instanceof Sword) {
                 System.out.println("You got the loot!");
@@ -33,7 +35,7 @@ public class LootCell extends Cell {
                 character.setEquipment(loot);
                 character.heal();
             }else{
-                System.out.println("You cannot equip this item");
+                Menu.showMessage("You cannot equip this item");
             }
         } else if (character.getType().equals("Wizard")) {
             if (loot instanceof Lightning || loot instanceof Fireball) {
@@ -45,7 +47,7 @@ public class LootCell extends Cell {
                 character.setEquipment(loot);
                 character.heal();
             }else{
-                System.out.println("You cannot equip this item");
+                Menu.showMessage("You cannot equip this item");
             }
         }
     }

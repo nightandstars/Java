@@ -1,10 +1,12 @@
 package dnd.game;
 
 
+import dnd.game.board.Board;
 import dnd.game.character.Character;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
 import dnd.game.db.MySQLHero;
+import dnd.game.dice.Dice;
 
 import java.util.Scanner;
 
@@ -142,14 +144,12 @@ public class Menu {
                 this.quitGame();
                 break;
         }
-
     }
 
     /**
      * Once the game is won, allows the player to start a new game or exit
      */
      public void endOfGameChoice(){
-         System.out.println("Congrats, you have won the game!");
          System.out.println("1 - Start a new game");
          System.out.println("2 - Exit");
          int choice = myScanner.nextInt();
@@ -161,6 +161,28 @@ public class Menu {
                  this.quitGame();
                  break;
          }
+     }
+
+     public void fightingMenu(){
+         System.out.println("Do you want to keep fighting or do you want to run?");
+         System.out.println("1 - Keep fighting");
+         System.out.println("2 - Run");
+         int choice = myScanner.nextInt();
+         Dice dice = new Dice();
+         switch (choice) {
+             case 1:
+                 break;
+             case 2:
+                 int moveBack = dice.rollD6();
+                 Board board = new Board();
+                 board.goBackOnBoard(moveBack);
+                 showMessage("You ran back " + moveBack + " cells");
+                 break;
+         }
+     }
+
+     public static void showMessage(String message){
+         System.out.println(message);
      }
 }
 

@@ -35,4 +35,5 @@ public class Enemy {
     public String getType() {
         return type;
     }
+
 }

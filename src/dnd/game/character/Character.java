@@ -1,4 +1,5 @@
 package dnd.game.character;
+import dnd.game.Menu;
 import dnd.game.loot.Loot;
 
 /**
@@ -46,19 +47,19 @@ public abstract class Character {
         int newHealth = equipment.getHeal();
         if((this.health + newHealth) >= maxHealth){
             this.health = maxHealth;
-            System.out.println("You're already full health");
+            Menu.showMessage("You're already full health");
         }else {
             this.health += newHealth;
-            System.out.println("You now have " + health + " health");
+            Menu.showMessage("You now have " + health + " health");
         }
     }
     public void upgradeAttack(){
         int newAttack = equipment.getAttack();
         if((this.attack + newAttack) >= maxAttack){
             this.attack = maxAttack;
-            System.out.println("You're already too powerful");
+            Menu.showMessage("You're already too powerful");
         }else{
-            System.out.println("Your new attack is " + attack);
+            Menu.showMessage("Your new attack is " + attack);
             this.attack += newAttack;
         }
     }

@@ -6,5 +6,5 @@ public abstract class Cell{
 
     public abstract void getDescription();
 
-    public void interact(Character character){};
+    public void interact(Character character, int playerPosition ){};
 }
