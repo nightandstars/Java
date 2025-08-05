@@ -10,10 +10,7 @@ import dnd.game.loot.potion.*;
 import dnd.game.loot.spell.*;
 import dnd.game.loot.weapon.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Represents the board on which the game will be played
@@ -23,6 +20,7 @@ public class Board {
     private List<Cell> board = new ArrayList<>(64);
     MySQLBoard databaseBoard = new MySQLBoard();
     private int playerPosition = 0;
+    private Scanner scanner = null;
 
     public void getBoard(Character chosenCharacter) {
         List<Cell> newBoard = createBoard();
@@ -36,6 +34,7 @@ public class Board {
     public void setBoard(List<Cell> board){
         this.board = board;
     }
+    public void setScanner(Scanner scanner){ this.scanner = scanner;}
 
     /**
      * Creates a "board" (arraylist) with 64 cells, each containing at random an empty cell, an enemy or loot
@@ -99,27 +98,32 @@ public class Board {
     public void moveOnBoard(Character chosenCharacter){
         Dice dice = new Dice();
         Menu endMenu = new Menu();
-        while(playerPosition < 64) {
+        while(playerPosition < board.size()) {
             int moveUp = dice.rollD6();
             playerPosition += moveUp;
-            if(playerPosition > 64) {
-                playerPosition = 64;
+            if(playerPosition > board.size()) {
+                playerPosition = board.size();
                 Menu.showMessage("You have won the game!");
                 endMenu.endOfGameChoice();
-            } else if (playerPosition == 64) {
+            } else if (playerPosition == board.size()) {
                 Menu.showMessage("You have won the game!");
                 endMenu.endOfGameChoice();
             }else {
                 Cell currentPosition = board.get((playerPosition - 1));
                 currentPosition.getDescription();
-                currentPosition.interact(chosenCharacter, playerPosition);
+                Menu.showMessage("You are on cell " + playerPosition);
+                currentPosition.interact(chosenCharacter, playerPosition, this);
+                Menu.showMessage("Press ENTER to continue");
+                scanner.nextLine();
             }
-            Menu.showMessage("You are on cell " + playerPosition);
         }
     }
 
-    public int goBackOnBoard(int position){
-        return playerPosition -= position;
+    public void goBackOnBoard(int position){
+        playerPosition -= position;
+        if(playerPosition <= 0){
+            playerPosition = 1;
+        }
     }
 
 }

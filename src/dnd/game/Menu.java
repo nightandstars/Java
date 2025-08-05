@@ -17,7 +17,7 @@ public class Menu {
 
     Scanner myScanner = new Scanner(System.in);
     Character chosenCharacter = null;
-    MySQLHero database = new MySQLHero();
+    MySQLHero database = new MySQLHero(this);
 
     /**
      * This lets the player create a new character or exit the game and proceeds to chosenCharacterClass()
@@ -25,7 +25,8 @@ public class Menu {
     public void startingMenu() {
         System.out.println("Welcome to DND, pick an option below:");
         System.out.println("1 - Create a New Character");
-        System.out.println("2 - Exit Game");
+        System.out.println("2 - Load a previous Character");
+        System.out.println("3 - Exit Game");
         int choice = myScanner.nextInt();
 
         switch (choice) {
@@ -33,6 +34,12 @@ public class Menu {
                 chosenCharacterClass();
                 break;
             case 2:
+                System.out.println("What is the id of the Character you wish to load?");
+                int characterId = myScanner.nextInt();
+                database.loadCharacter(characterId);
+                characterInfo();
+                break;
+            case 3:
                 this.quitGame();
                 break;
         }
@@ -131,11 +138,13 @@ public class Menu {
         myScanner.nextLine();
         switch (choice) {
             case 1:
+                game.getScanner(myScanner);
                 game.startNewGame(this.chosenCharacter);
                 break;
             case 2:
                 System.out.println("What is the id of the board you wish to load?");
                 int boardId = myScanner.nextInt();
+                game.getScanner(myScanner);
                 game.loadPreviousGame(boardId, this.chosenCharacter);
             case 3:
                 this.characterInfo();
@@ -163,26 +172,20 @@ public class Menu {
          }
      }
 
-     public void fightingMenu(){
+     public int fightingMenu(){
          System.out.println("Do you want to keep fighting or do you want to run?");
          System.out.println("1 - Keep fighting");
          System.out.println("2 - Run");
          int choice = myScanner.nextInt();
-         Dice dice = new Dice();
-         switch (choice) {
-             case 1:
-                 break;
-             case 2:
-                 int moveBack = dice.rollD6();
-                 Board board = new Board();
-                 board.goBackOnBoard(moveBack);
-                 showMessage("You ran back " + moveBack + " cells");
-                 break;
-         }
+         return choice;
      }
 
      public static void showMessage(String message){
          System.out.println(message);
+     }
+
+     public void setChosenCharacter(Character character){
+         this.chosenCharacter = character;
      }
 }
 

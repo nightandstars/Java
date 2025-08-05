@@ -17,4 +17,13 @@ public class Warrior extends Character{
         setType("Warrior");
         setMaxAttack(10);
     }
+
+    public Warrior(String name, int attack, int health){
+        setName(name);
+        setAttack(attack);
+        setMaxHealth(10);
+        setHealth(health);
+        setType("Warrior");
+        setMaxAttack(10);
+    }
 }

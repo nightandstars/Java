@@ -1,6 +1,7 @@
 package dnd.game.board.cell;
 
 import dnd.game.Menu;
+import dnd.game.board.Board;
 import dnd.game.character.Character;
 import dnd.game.loot.Loot;
 import dnd.game.loot.potion.LargePotion;
@@ -24,7 +25,7 @@ public class LootCell extends Cell {
     }
 
     @Override
-    public void interact(Character character, int playerPosition) {
+    public void interact(Character character, int playerPosition, Board board) {
         if (character.getType().equals("Warrior")) {
             if (loot instanceof Mace || loot instanceof Sword) {
                 System.out.println("You got the loot!");

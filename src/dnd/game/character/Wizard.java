@@ -17,4 +17,13 @@ public class Wizard extends Character{
         setType("Wizard");
         setMaxAttack(15);
     }
+
+    public Wizard(String name, int attack, int health){
+        setName(name);
+        setAttack(attack);
+        setMaxHealth(6);
+        setHealth(health);
+        setType("Wizard");
+        setMaxAttack(15);
+    }
 }

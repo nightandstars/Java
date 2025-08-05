@@ -1,6 +1,10 @@
 package dnd.game.db;
 
+import dnd.game.Menu;
 import dnd.game.character.Character;
+import dnd.game.character.Warrior;
+import dnd.game.character.Wizard;
+
 import java.sql.*;
 
 public class MySQLHero {
@@ -8,12 +12,15 @@ public class MySQLHero {
     Statement query = null;
     ResultSet result = null;
     Connection connection;
+    private Menu menu = null;
+
     /**
      * Connects to the database
      */
-    public MySQLHero(){
+    public MySQLHero(Menu menu){
         try{
             connection = DriverManager.getConnection(this.url);
+            this.menu = menu;
         } catch (SQLException e) {
             System.out.println("Could not connect to Database");
             e.printStackTrace();
@@ -33,7 +40,7 @@ public class MySQLHero {
                 int offensiveLootId = result.getInt("offensive_loot_id");
                 int defensiveLootId = result.getInt("defensive_loot_id");
 
-                System.out.println("ID: " + id
+                Menu.showMessage("ID: " + id
                         + ", Name: " + name
                         + ", Type: " + type
                         + ", Health: " + health
@@ -61,7 +68,7 @@ public class MySQLHero {
                 String type = result.getString("type");
                 int effect = result.getInt("effect");
 
-                System.out.println("ID: " + id
+                Menu.showMessage("ID: " + id
                         + ", Name: " + name
                         + ", Type: " + type
                         + ", Effect: " + effect);
@@ -125,6 +132,37 @@ public class MySQLHero {
        } catch (Exception e) {
            e.printStackTrace();
        }
+   }
+
+   public void loadCharacter(int characterId){
+        try{
+            String sql = "SELECT * FROM Characters WHERE id = ?";
+            PreparedStatement fill = connection.prepareStatement(sql);
+            fill.setInt(1, characterId);
+            result = fill.executeQuery();
+            if(result.next()){
+                String name = result.getString("name");
+                String type = result.getString("type");
+                int health = result.getInt("health");
+                int attack = result.getInt("attack");
+//                int offensiveLootId = result.getInt("offensive_loot_id");
+//                int defensiveLootId = result.getInt("defensive_loot_id");
+                Character character = null;
+                switch(type){
+                    case "Warrior":
+                        character = new Warrior(name, attack, health);
+                        break;
+                    case "Wizard":
+                        character = new Wizard(name, attack, health);
+                        break;
+                }
+                menu.setChosenCharacter(character);
+            }
+            result.close();
+            fill.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
    }
 
 }
