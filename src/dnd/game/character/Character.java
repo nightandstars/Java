@@ -49,6 +49,9 @@ public abstract class Character {
         return attack;
     }
 
+    public Loot getEquipment() {
+        return equipment;
+    }
 
     public void setAttack(int attack) {
         this.attack = attack;
@@ -73,12 +76,13 @@ public abstract class Character {
      */
     public void upgradeAttack(){
         int newAttack = equipment.getAttack();
-        if((this.attack + newAttack) > maxAttack){
-            this.attack = maxAttack;
+        if((attack + newAttack) > maxAttack){
+            attack = maxAttack;
             Menu.showMessage("You're already too powerful");
         }else{
+            Menu.showMessage("Your previous attack was " + attack);
+            attack += newAttack;
             Menu.showMessage("Your new attack is " + attack);
-            this.attack += newAttack;
         }
     }
 

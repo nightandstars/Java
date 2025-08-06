@@ -12,7 +12,9 @@ import dnd.game.loot.Loot;
 import dnd.game.loot.potion.LargePotion;
 import dnd.game.loot.potion.SmallPotion;
 import dnd.game.loot.spell.Fireball;
+import dnd.game.loot.spell.Invisibility;
 import dnd.game.loot.spell.Lightning;
+import dnd.game.loot.weapon.Bow;
 import dnd.game.loot.weapon.Mace;
 import dnd.game.loot.weapon.Sword;
 
@@ -40,6 +42,8 @@ public class MySQLBoard {
                             .registerSubtype(Lightning.class, "LightningSpell")
                             .registerSubtype(Mace.class, "MaceWeapon")
                             .registerSubtype(Sword.class, "SwordWeapon")
+                            .registerSubtype(Bow.class, "BowWeapon")
+                            .registerSubtype(Invisibility.class, "InvisibilitySpell")
             )
             .registerTypeAdapterFactory(
                     RuntimeTypeAdapterFactory

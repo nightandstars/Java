@@ -7,11 +7,13 @@ import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
 import dnd.game.db.MySQLBoard;
 import dnd.game.dice.Dice;
+import dnd.game.enemy.Dragon;
 import dnd.game.enemy.Enemy;
 import dnd.game.enemy.EvilSpirit;
 import dnd.game.enemy.Orc;
+import dnd.game.loot.spell.Invisibility;
+import dnd.game.loot.weapon.Bow;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -75,6 +77,16 @@ public class EnemyCell extends Cell implements Dice{
         int damage = character.getAttack();
         int diceValue = rollD20();
         if (isBeatingArmorClass(character, "character", diceValue)) {
+            //you are implementing the damage based on bow/invisibility spell and correct enemy
+            if(character.getEquipment() instanceof Bow && enemy instanceof Dragon){
+                damage += 6;
+            } else if (character.getEquipment() instanceof Bow) {
+                damage += 4;
+            } else if (character.getEquipment() instanceof Invisibility && enemy instanceof EvilSpirit) {
+                damage += 8;
+            } else if (character.getEquipment() instanceof Invisibility) {
+                damage += 5;
+            }
             damage = isCritical(diceValue, damage);
             Menu.showMessage("You dealt " + damage + " damage");
             int newEnemyHealth = enemy.getHealth() - damage;
@@ -139,12 +151,12 @@ public class EnemyCell extends Cell implements Dice{
         Menu.showMessage("Dice rolled to beat Armor Class: " + diceValue);
         switch (whoIsAttacking){
             case "character":
-                if (diceValue > enemyAC){
+                if (diceValue >= enemyAC){
                     ACBeaten = true;
                 }
                 break;
             case "enemy":
-                if (diceValue > characterAC){
+                if (diceValue >= characterAC){
                     ACBeaten = true;
                 }
                 break;

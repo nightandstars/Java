@@ -9,7 +9,9 @@ import dnd.game.loot.Loot;
 import dnd.game.loot.potion.LargePotion;
 import dnd.game.loot.potion.SmallPotion;
 import dnd.game.loot.spell.Fireball;
+import dnd.game.loot.spell.Invisibility;
 import dnd.game.loot.spell.Lightning;
+import dnd.game.loot.weapon.Bow;
 import dnd.game.loot.weapon.Mace;
 import dnd.game.loot.weapon.Sword;
 
@@ -41,7 +43,7 @@ public class LootCell extends Cell {
     @Override
     public void interact(Character character, int playerPosition, Board board) {
         if (character instanceof Warrior) {
-            if (loot instanceof Mace || loot instanceof Sword) {
+            if (loot instanceof Mace || loot instanceof Sword || loot instanceof Bow) {
                 System.out.println("You got the loot!");
                 character.setEquipment(loot);
                 character.upgradeAttack();
@@ -55,7 +57,7 @@ public class LootCell extends Cell {
                 Menu.showMessage("You cannot equip this item");
             }
         } else if (character instanceof Wizard) {
-            if (loot instanceof Lightning || loot instanceof Fireball) {
+            if (loot instanceof Lightning || loot instanceof Fireball || loot instanceof Invisibility) {
                 System.out.println("You got the loot!");
                 character.setEquipment(loot);
                 character.upgradeAttack();
