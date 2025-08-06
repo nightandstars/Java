@@ -59,7 +59,7 @@ public abstract class Character {
      */
     public void heal(){
         int newHealth = equipment.getHeal();
-        if((this.health + newHealth) >= maxHealth){
+        if((this.health + newHealth) > maxHealth){
             this.health = maxHealth;
             Menu.showMessage("You're already full health");
         }else {
@@ -73,7 +73,7 @@ public abstract class Character {
      */
     public void upgradeAttack(){
         int newAttack = equipment.getAttack();
-        if((this.attack + newAttack) >= maxAttack){
+        if((this.attack + newAttack) > maxAttack){
             this.attack = maxAttack;
             Menu.showMessage("You're already too powerful");
         }else{

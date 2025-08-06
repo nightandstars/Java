@@ -58,7 +58,7 @@ public class Board implements Dice {
         int enemiesAdded = 0;
         int lootAdded = 0;
         for (int i = 1; i < MAX_CELLS; i++) {
-            int enemyType = randomType.nextInt(3);
+            int enemyType = randomType.nextInt(5);
             int lootType = randomType.nextInt(6);
             if (enemiesAdded < MAX_ENEMIES) {
                 switch (enemyType) {
@@ -70,6 +70,12 @@ public class Board implements Dice {
                         break;
                     case 2:
                         board.add(new EnemyCell(new Dragon()));
+                        break;
+                    case 3:
+                        board.add(new EnemyCell(new Orc()));
+                        break;
+                    case 4:
+                        board.add(new EnemyCell(new EvilSpirit()));
                         break;
                 }
                 enemiesAdded++;

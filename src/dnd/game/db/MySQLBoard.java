@@ -7,10 +7,7 @@ import dnd.game.board.cell.Cell;
 import dnd.game.board.cell.EmptyCell;
 import dnd.game.board.cell.EnemyCell;
 import dnd.game.board.cell.LootCell;
-import dnd.game.enemy.Dragon;
-import dnd.game.enemy.Enemy;
-import dnd.game.enemy.Goblin;
-import dnd.game.enemy.Sorcerer;
+import dnd.game.enemy.*;
 import dnd.game.loot.Loot;
 import dnd.game.loot.potion.LargePotion;
 import dnd.game.loot.potion.SmallPotion;
@@ -50,6 +47,8 @@ public class MySQLBoard {
                             .registerSubtype(Goblin.class, "Goblin")
                             .registerSubtype(Sorcerer.class, "Sorcerer")
                             .registerSubtype(Dragon.class, "Dragon")
+                            .registerSubtype(Orc.class, "Orc")
+                            .registerSubtype(EvilSpirit.class, "EvilSpirit")
             )
             .registerTypeAdapterFactory(
                     RuntimeTypeAdapterFactory.of(Cell.class, "type")

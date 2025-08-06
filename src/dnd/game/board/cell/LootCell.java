@@ -3,6 +3,8 @@ package dnd.game.board.cell;
 import dnd.game.Menu;
 import dnd.game.board.Board;
 import dnd.game.character.Character;
+import dnd.game.character.Warrior;
+import dnd.game.character.Wizard;
 import dnd.game.loot.Loot;
 import dnd.game.loot.potion.LargePotion;
 import dnd.game.loot.potion.SmallPotion;
@@ -38,7 +40,7 @@ public class LootCell extends Cell {
      */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
-        if (character.getType().equals("Warrior")) {
+        if (character instanceof Warrior) {
             if (loot instanceof Mace || loot instanceof Sword) {
                 System.out.println("You got the loot!");
                 character.setEquipment(loot);
@@ -52,7 +54,7 @@ public class LootCell extends Cell {
             }else{
                 Menu.showMessage("You cannot equip this item");
             }
-        } else if (character.getType().equals("Wizard")) {
+        } else if (character instanceof Wizard) {
             if (loot instanceof Lightning || loot instanceof Fireball) {
                 System.out.println("You got the loot!");
                 character.setEquipment(loot);

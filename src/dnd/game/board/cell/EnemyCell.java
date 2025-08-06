@@ -3,9 +3,13 @@ package dnd.game.board.cell;
 import dnd.game.Menu;
 import dnd.game.board.Board;
 import dnd.game.character.Character;
+import dnd.game.character.Warrior;
+import dnd.game.character.Wizard;
 import dnd.game.db.MySQLBoard;
 import dnd.game.dice.Dice;
 import dnd.game.enemy.Enemy;
+import dnd.game.enemy.EvilSpirit;
+import dnd.game.enemy.Orc;
 
 import java.util.List;
 import java.util.Random;
@@ -37,6 +41,19 @@ public class EnemyCell extends Cell implements Dice{
      */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
+
+        if(enemy instanceof Orc && character instanceof Warrior){
+            engageFight(character, playerPosition, board);
+        }else if(enemy instanceof EvilSpirit && character instanceof Wizard){
+            engageFight(character, playerPosition, board);
+        }else if(!(enemy instanceof Orc || enemy instanceof EvilSpirit )) {
+            engageFight(character, playerPosition, board);
+        }else{
+            Menu.showMessage("The enemy does not care about you");
+        }
+    }
+
+    public void engageFight(Character character, int playerPosition, Board board){
         boolean isRunning = false;
         while ((character.getHealth() > 0 || enemy.getHealth() > 0) && !isRunning) {
             characterIsAttacking(character);
