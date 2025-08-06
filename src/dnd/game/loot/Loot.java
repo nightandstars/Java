@@ -12,7 +12,5 @@ public abstract class Loot {
 
     public abstract int getHeal();
 
-    public abstract void setHeal(int health);
-
     public abstract String getDescription();
 }

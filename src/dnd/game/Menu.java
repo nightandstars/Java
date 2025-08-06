@@ -12,9 +12,9 @@ import java.util.Scanner;
  */
 public class Menu {
 
-    Scanner myScanner = new Scanner(System.in);
-    Character chosenCharacter = null;
-    MySQLHero database = new MySQLHero(this);
+    private Scanner myScanner = new Scanner(System.in);
+    private Character chosenCharacter = null;
+    private MySQLHero database = new MySQLHero(this);
 
     /**
      * This lets the player create a new character, load an existing one or exit the game

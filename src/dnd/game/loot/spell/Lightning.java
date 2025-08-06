@@ -26,11 +26,6 @@ public class Lightning extends Loot {
     }
 
     @Override
-    public void setHeal(int health) {
-        int heal = 0;
-    }
-
-    @Override
     public String getDescription() {
         return "Call the lightning! Zap";
     }

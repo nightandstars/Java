@@ -29,12 +29,12 @@ import java.util.List;
  */
 public class MySQLBoard {
     private String url = "jdbc:mysql://localhost:3306/dnd?user=root&password=MorganE1740*";
-    Connection connection;
+    private Connection connection;
 
     /**
      * Allows deserializing of the cells when loading a board
      */
-    Gson gsonBuilder = new GsonBuilder().registerTypeAdapterFactory(
+    private Gson gsonBuilder = new GsonBuilder().registerTypeAdapterFactory(
                     RuntimeTypeAdapterFactory
                             .of(Loot.class, "type")
                             .registerSubtype(LargePotion.class, "LargePotion")

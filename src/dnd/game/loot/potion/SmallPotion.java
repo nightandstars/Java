@@ -26,11 +26,6 @@ public class SmallPotion extends Loot {
     }
 
     @Override
-    public void setHeal(int health) {
-        this.heal = health;
-    }
-
-    @Override
     public String getDescription() {
         return "A Small Potion, time to heal!";
     }

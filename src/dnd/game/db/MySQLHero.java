@@ -12,9 +12,9 @@ import java.sql.*;
  */
 public class MySQLHero {
     private String url = "jdbc:mysql://localhost:3306/dnd?user=root&password=MorganE1740*";
-    Statement query = null;
-    ResultSet result = null;
-    Connection connection;
+    private Statement query = null;
+    private ResultSet result = null;
+    private Connection connection;
     private Menu menu = null;
 
     /**

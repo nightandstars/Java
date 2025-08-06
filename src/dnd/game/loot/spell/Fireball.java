@@ -26,11 +26,6 @@ public class Fireball extends Loot {
     }
 
     @Override
-    public void setHeal(int health) {
-        int heal = 0;
-    }
-
-    @Override
     public String getDescription() {
         return "Burn Baby Burn! It's Fireball time";
     }

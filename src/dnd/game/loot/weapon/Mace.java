@@ -26,11 +26,6 @@ public class Mace extends Loot {
     }
 
     @Override
-    public void setHeal(int health) {
-        int heal = 0;
-    }
-
-    @Override
     public String getDescription() {
         return "Boink! This mace is going to hurt";
     }

@@ -18,7 +18,7 @@ import java.util.*;
 public class Board implements Dice {
 
     private List<Cell> board = new ArrayList<>(64);
-    MySQLBoard databaseBoard = new MySQLBoard();
+    private MySQLBoard databaseBoard = new MySQLBoard();
     private int playerPosition = 0;
     private Scanner scanner = null;
 

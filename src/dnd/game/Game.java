@@ -12,9 +12,9 @@ import java.util.Scanner;
  * Handles the basic mechanic of starting a game
  */
 public class Game {
-    Board board = new Board();
-    MySQLBoard database = new MySQLBoard();
-    Scanner scanner = null;
+    private Board board = new Board();
+    private MySQLBoard database = new MySQLBoard();
+    private Scanner scanner = null;
 
     /**
      * Starts a new game which means creating a new board
