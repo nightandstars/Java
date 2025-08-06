@@ -1,5 +1,8 @@
 package dnd.game.enemy;
 
+/**
+ * Represents a Dragon in the game
+ */
 public class Dragon extends Enemy {
     public Dragon(){
         super("Dragon", 4, 15, "Dragon", 15);

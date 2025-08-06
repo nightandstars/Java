@@ -2,6 +2,9 @@ package dnd.game.loot.weapon;
 
 import dnd.game.loot.Loot;
 
+/**
+ * represents a mace in the game
+ */
 public class Mace extends Loot {
     String name = "Mace";
     int attack = 3;

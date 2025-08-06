@@ -7,6 +7,9 @@ import dnd.game.character.Wizard;
 
 import java.sql.*;
 
+/**
+ * Represents and allows interaction with a Characters table in MySQL DB
+ */
 public class MySQLHero {
     private String url = "jdbc:mysql://localhost:3306/dnd?user=root&password=MorganE1740*";
     Statement query = null;
@@ -27,6 +30,9 @@ public class MySQLHero {
         }
     }
 
+    /**
+     * Shows all characters saved in the DB
+     */
     public void getCharacters(){
         try{
             query = connection.createStatement();
@@ -58,32 +64,12 @@ public class MySQLHero {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
     }
-    public void getLoot(){
-        try{
-            query = connection.createStatement();
-            result = query.executeQuery("SELECT* FROM Loot");
-            while (result.next()) {
-                int id = result.getInt("id");
-                String name = result.getString("name");
-                String type = result.getString("type");
-                int effect = result.getInt("effect");
 
-                Menu.showMessage("ID: " + id
-                        + ", Name: " + name
-                        + ", Type: " + type
-                        + ", Effect: " + effect);
-            }
-            result.close();
-            query.close();
-            connection.close();
-
-        }catch (SQLException ex){
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-    }
-
+    /**
+     * Saves a new character inside the DB
+     * @param character that has been created and all its stats
+     * @param name of the character chosen by the player
+     */
    public void createHero(Character character, String name){
         String type = character.getType();
         int health = character.getHealth();
@@ -110,6 +96,11 @@ public class MySQLHero {
         }
    }
 
+    /**
+     * Changes the name of the character saved in the DB
+     * @param character to be changed
+     * @param name new name to be assigned
+     */
    public void editHero(Character character, String name){
         try{
             String sql = "UPDATE Characters SET name = ? WHERE id = ? ";
@@ -123,6 +114,10 @@ public class MySQLHero {
         }
    }
 
+    /**
+     * Changes the health of the character (ie saving the character's current status for later games when exiting game before it is finished)
+     * @param character to be changed
+     */
    public void changeHealth(Character character){
        try{
            String sql = "UPDATE Characters SET health = ? WHERE id = ? ";
@@ -136,6 +131,10 @@ public class MySQLHero {
        }
    }
 
+    /**
+     * Loads a character present in the DB and all its corresponding stats
+     * @param characterId character to be loaded
+     */
    public void loadCharacter(int characterId){
         try{
             String sql = "SELECT * FROM Characters WHERE id = ?";

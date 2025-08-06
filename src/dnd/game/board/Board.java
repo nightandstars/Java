@@ -22,6 +22,10 @@ public class Board implements Dice {
     private int playerPosition = 0;
     private Scanner scanner = null;
 
+    /**
+     * Creates a new board and saves it to the DB, starts character's moves
+     * @param chosenCharacter character that will play on the board
+     */
     public void getBoard(Character chosenCharacter) {
         List<Cell> newBoard = createBoard();
         int boardId = databaseBoard.createBoard(newBoard);
@@ -37,16 +41,17 @@ public class Board implements Dice {
     public void setScanner(Scanner scanner){ this.scanner = scanner;}
 
     /**
-     * Creates a "board" (arraylist) with 64 cells, each containing at random an empty cell, an enemy or loot
-     * @return array list with 64 indexes and values from 1-64
+     * Creates a board (list of cells) with 64 cells, each containing at random an empty cell, an enemy or loot, board has a fixed number of max enemies/loot
+     * @return list with 64 indexes and values from 1-64 each representing a cell
      */
     private List<Cell> createBoard() {
         Random randomType = new Random();
         final int MAX_ENEMIES = 24;
         final int MAX_LOOT = 24;
+        final int MAX_CELLS = 65;
         int enemiesAdded = 0;
         int lootAdded = 0;
-        for (int i = 1; i < 65; i++) {
+        for (int i = 1; i < MAX_CELLS; i++) {
             int enemyType = randomType.nextInt(3);
             int lootType = randomType.nextInt(6);
             if (enemiesAdded < MAX_ENEMIES) {
@@ -93,7 +98,7 @@ public class Board implements Dice {
         }
 
     /**
-     * Instantiates a die, starts the player on cell 1, rolls the dice and move the player on the board until they reach cell 64 and win the game, prints the current cell that the player is on
+     * Moves the player on the board according to the result of a random D6, if player position >= 64, game is won, otherwise player keeps moving, triggers an interaction on each cell that the player lands on
      */
     public void moveOnBoard(Character chosenCharacter){
         Menu endMenu = new Menu();
@@ -118,6 +123,10 @@ public class Board implements Dice {
         }
     }
 
+    /**
+     * Triggers when player runs from a fight, makes it go back a certain number of cells
+     * @param position the number of cells to move back (result of a D6)
+     */
     public void goBackOnBoard(int position){
         playerPosition -= position;
         if(playerPosition <= 0){
@@ -125,6 +134,10 @@ public class Board implements Dice {
         }
     }
 
+    /**
+     * Result of a random D6
+     * @return dice value
+     */
     @Override
     public int rollD6() {
         Random diceRoll = new Random();
@@ -133,6 +146,10 @@ public class Board implements Dice {
         return diceValue;
     }
 
+    /**
+     * Result of a random D20
+     * @return dice value
+     */
     @Override
     public int rollD20() {
         Random diceRoll = new Random();

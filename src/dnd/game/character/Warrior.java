@@ -2,11 +2,14 @@ package dnd.game.character;
 
 import java.util.Random;
 
+/**
+ * Represents a character of type warrior in the game
+ */
 public class Warrior extends Character{
 
     /**
-     * creates a warrior with a set name, attack and health
-     * @param name the name of the character
+     * creates a warrior and assigns a random health/attack, assigns its name, armor class, type for the DB
+     * @param name the name of the character chosen by the player
      */
     public Warrior(String name){
         setName(name);
@@ -19,6 +22,12 @@ public class Warrior extends Character{
         setArmorClass(12);
     }
 
+    /**
+     * creates a warrior according to the data present in the DB
+     * @param name the name chosen by the player
+     * @param attack the attack saved in the DB
+     * @param health the health saved in the DB
+     */
     public Warrior(String name, int attack, int health){
         setName(name);
         setAttack(attack);

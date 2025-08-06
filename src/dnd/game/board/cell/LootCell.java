@@ -11,6 +11,9 @@ import dnd.game.loot.spell.Lightning;
 import dnd.game.loot.weapon.Mace;
 import dnd.game.loot.weapon.Sword;
 
+/**
+ * Represents a cell containing loot on the board
+ */
 public class LootCell extends Cell {
     private Loot loot;
     private String type = "loot";
@@ -19,11 +22,20 @@ public class LootCell extends Cell {
         this.loot = loot;
     }
 
+    /**
+     * Gets the description of the loot present on the cell
+     */
     @Override
     public void getDescription() {
-        System.out.println(loot.getDescription());
+        Menu.showMessage(loot.getDescription());
     }
 
+    /**
+     * Checks the loot present on the cell against the character's type to meet certain conditions regarding weapons and spells, if the loot is a potion the character heals
+     * @param character the character that is being played
+     * @param playerPosition the cell on which the character is
+     * @param board the board that is being played on
+     */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
         if (character.getType().equals("Warrior")) {

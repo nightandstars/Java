@@ -3,7 +3,7 @@ import dnd.game.Menu;
 import dnd.game.loot.Loot;
 
 /**
- * Represents the main characteristics of a character in the game
+ * Represents the character that is being played and its stats
  */
 public abstract class Character {
     private String name;
@@ -49,9 +49,14 @@ public abstract class Character {
         return attack;
     }
 
+
     public void setAttack(int attack) {
         this.attack = attack;
     }
+
+    /**
+     * When the character finds a potion checks their health, if max nothing happens, else heals according to the potion's stats
+     */
     public void heal(){
         int newHealth = equipment.getHeal();
         if((this.health + newHealth) >= maxHealth){
@@ -62,6 +67,10 @@ public abstract class Character {
             Menu.showMessage("You now have " + health + " health");
         }
     }
+
+    /**
+     * When the character finds a weapon/spell checks their attack, if max nothing happens, else upgrades their attack according to the weapon's/spell's stats
+     */
     public void upgradeAttack(){
         int newAttack = equipment.getAttack();
         if((this.attack + newAttack) >= maxAttack){
@@ -97,6 +106,10 @@ public abstract class Character {
         this.maxAttack = maxAttack;
     }
 
+    /**
+     * Allows the player to see the basic stats of their character
+     * @return String with corresponding stats
+     */
     public String toString(){
         return name + " is a " + type + " with " + health + " health and " + attack + " attack";
     }

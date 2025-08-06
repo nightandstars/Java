@@ -8,6 +8,9 @@ import dnd.game.enemy.Enemy;
 
 import java.util.Random;
 
+/**
+ * Represents a cell containing en enemy to fight
+ */
 public class EnemyCell extends Cell implements Dice{
     private Enemy enemy;
     private String type = "enemy";
@@ -16,11 +19,20 @@ public class EnemyCell extends Cell implements Dice{
         this.enemy = enemy;
     }
 
+    /**
+     * Prints the description of the enemy present on the cell
+     */
     @Override
     public void getDescription() {
         System.out.println(enemy.getDescription());
     }
 
+    /**
+     * Engages the fight, player hits first, checks if enemy is defeated, else enemy attacks
+     * @param character the character that is being played
+     * @param playerPosition the cell on which the character is
+     * @param board the board that is being played on
+     */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
         //critical 1/20
@@ -36,6 +48,10 @@ public class EnemyCell extends Cell implements Dice{
         }
     }
 
+    /**
+     * Checks if the hit lands and modifies the enemy's health
+     * @param character the character being played and its stats
+     */
     private void characterIsAttacking(Character character) {
         int damage = character.getAttack();
         if (isBeatingArmorClass(character, "character")) {
@@ -48,6 +64,13 @@ public class EnemyCell extends Cell implements Dice{
         }
     }
 
+    /**
+     * Checks if the hit lands and modifies the character's health, checks if character is dead, else option to run or keep fighting
+     * @param character the character being played and its stats
+     * @param isRunning is the player running from the fight, false by default
+     * @param board the board being played on
+     * @return if the character runs from the fight or not
+     */
     private boolean enemyIsAttacking(Character character, boolean isRunning, Board board) {
         Menu menu = new Menu();
         int damage2 = enemy.getAttack();
@@ -78,6 +101,12 @@ public class EnemyCell extends Cell implements Dice{
             return isRunning;
         }
 
+    /**
+     * Checks the result of a random D20 against the enemy/character armor class, if dice is >= AC then the hit lands, otherwise it is missed
+     * @param character character being played and its stats
+     * @param whoIsAttacking enemy or character's turn to know which AC to check
+     * @return is the AC beaten or not (ie is the hit successful)
+     */
     private boolean isBeatingArmorClass(Character character, String whoIsAttacking){
         boolean ACBeaten = false;
         int characterAC = character.getArmorClass();
@@ -99,6 +128,10 @@ public class EnemyCell extends Cell implements Dice{
         return ACBeaten;
     }
 
+    /**
+     * Rolls a random D6
+     * @return the result of the throw
+     */
     @Override
     public int rollD6() {
         Random diceRoll = new Random();
@@ -107,12 +140,22 @@ public class EnemyCell extends Cell implements Dice{
         return diceValue;
     }
 
+    /**
+     * Rolls a random D20
+     * @return the result of the throw
+     */
     @Override
     public int rollD20() {
         Random diceRoll = new Random();
         return diceRoll.nextInt(1,21);
     }
 
+    /**
+     * Checks if the hit is critical upon the D20 roll, critical failure on a 1, critical success on a 20
+     * @param diceValue the result of the D20
+     * @param damage the damage being inflicted normally
+     * @return damage value modified by the critical (ie 0 or doubled)
+     */
     private int isCritical(int diceValue, int damage){
         // you're trying to figure out how to return damage *2 since damage and diceValue
         // come from two different methods, dicevalue is beatenAC, damage is charac/enemy attacking

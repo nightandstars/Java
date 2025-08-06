@@ -2,6 +2,9 @@ package dnd.game.loot.spell;
 
 import dnd.game.loot.Loot;
 
+/**
+ * represents a lightning spell in the game
+ */
 public class Lightning extends Loot {
     String name = "Lightning";
     int attack = 2;

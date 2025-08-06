@@ -8,16 +8,28 @@ import dnd.game.db.MySQLBoard;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Handles the basic mechanic of starting a game
+ */
 public class Game {
     Board board = new Board();
     MySQLBoard database = new MySQLBoard();
     Scanner scanner = null;
 
+    /**
+     * Starts a new game which means creating a new board
+     * @param chosenCharacter
+     */
     public void startNewGame(Character chosenCharacter){
         board.setScanner(scanner);
         board.getBoard(chosenCharacter);
     }
 
+    /**
+     * Starts a previous game which means loading a previous board from the DB
+     * @param boardId of the board to be loaded
+     * @param chosenCharacter character to be played
+     */
     public void loadPreviousGame(int boardId, Character chosenCharacter){
        List<Cell> cells = database.loadBoard(boardId);
        board.setScanner(scanner);
@@ -25,6 +37,10 @@ public class Game {
        board.moveOnBoard(chosenCharacter);
     }
 
+    /**
+     * gets the scanner instantiated inside the menu and passes it to the board
+     * @param scanner instance present in the Menu class
+     */
     public void getScanner(Scanner scanner){
         this.scanner = scanner;
     }

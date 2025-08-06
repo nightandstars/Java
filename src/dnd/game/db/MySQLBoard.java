@@ -24,9 +24,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents and allows interaction with a board table in the MySQL DB
+ */
 public class MySQLBoard {
     private String url = "jdbc:mysql://localhost:3306/dnd?user=root&password=MorganE1740*";
     Connection connection;
+
+    /**
+     * Allows deserializing of the cells when loading a board
+     */
     Gson gsonBuilder = new GsonBuilder().registerTypeAdapterFactory(
                     RuntimeTypeAdapterFactory
                             .of(Loot.class, "type")
@@ -68,6 +75,11 @@ public class MySQLBoard {
         return this.gsonBuilder;
     }
 
+    /**
+     * Inputs a new board into the DB with content saved as a json, representing each cell
+     * @param jsonCells list of cells on the board
+     * @return int representing the id of the new board
+     */
     public int createBoard(List<Cell> jsonCells) {
         int boardId = 0;
         try {
@@ -95,6 +107,11 @@ public class MySQLBoard {
         return boardId;
     }
 
+    /**
+     * Loads a board present in the DB
+     * @param boardId the id of the board we wish to load
+     * @return the list of cells representing the board
+     */
     public List<Cell> loadBoard(int boardId) {
         try {
             String sql = "SELECT board_json FROM Board WHERE id = ?";
@@ -115,6 +132,11 @@ public class MySQLBoard {
         return new ArrayList<>();
     }
 
+    /**
+     * Updates the board present in the DB with the new cell content
+     * @param boardId the board we wish to change
+     * @param cells the news cells representing the board
+     */
     public void updateBoard(int boardId, List<Cell> cells){
         try{
             String json = gsonBuilder.toJson(cells);
@@ -126,24 +148,6 @@ public class MySQLBoard {
         }catch (SQLException e){
             e.printStackTrace();
         }
-    }
-
-    public String getBoardById(int boardId) {
-        String boardJson = null;
-        try {
-            String sql = "SELECT board_json FROM Board WHERE id = ?";
-            PreparedStatement fill = connection.prepareStatement(sql);
-            fill.setInt(1, boardId);
-            ResultSet result = fill.executeQuery();
-            if (result.next()) {
-                boardJson = result.getString("board_json");
-            }
-            result.close();
-            fill.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return boardJson;
     }
 
 

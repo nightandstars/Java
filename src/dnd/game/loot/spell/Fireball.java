@@ -2,6 +2,9 @@ package dnd.game.loot.spell;
 
 import dnd.game.loot.Loot;
 
+/**
+ * Represents a fireball spell in the game
+ */
 public class Fireball extends Loot {
     String name = "Fireball";
     int attack = 7;

@@ -1,17 +1,14 @@
 package dnd.game;
 
-
-import dnd.game.board.Board;
 import dnd.game.character.Character;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
 import dnd.game.db.MySQLHero;
-import dnd.game.dice.Dice;
 
 import java.util.Scanner;
 
 /**
- * Represents the different menus to navigate through the game and play it
+ * Represents the different menus to navigate through the game and execute actions depending on a choice
  */
 public class Menu {
 
@@ -20,7 +17,7 @@ public class Menu {
     MySQLHero database = new MySQLHero(this);
 
     /**
-     * This lets the player create a new character or exit the game and proceeds to chosenCharacterClass()
+     * This lets the player create a new character, load an existing one or exit the game
      */
     public void startingMenu() {
         System.out.println("Welcome to DND, pick an option below:");
@@ -46,7 +43,7 @@ public class Menu {
     }
 
     /**
-     * This lets the player choose a class for their character as well as a name, or exit, and proceeds to instantiate said character
+     * This lets the player choose a class for their character as well as a name which gets saved to the DB, or exit
      */
     private void chosenCharacterClass() {
         System.out.println("Do you want a Wizard or a Warrior?:");
@@ -125,7 +122,7 @@ public class Menu {
     }
 
     /**
-     * Starts the game, initializes the board and moves the character on the board until end of game
+     * Starts the game, loads a previous one (ie previous board), go back to character info menu or exit
      */
     private void startGame() {
         Game game = new Game();
@@ -156,7 +153,7 @@ public class Menu {
     }
 
     /**
-     * Once the game is won, allows the player to start a new game or exit
+     * Once the game is won or player is dead, allows the player to start a new game or exit
      */
      public void endOfGameChoice(){
          System.out.println("1 - Start a new game");
@@ -172,6 +169,10 @@ public class Menu {
          }
      }
 
+    /**
+     * Allows the player to keep fighting an enemy or run
+     * @return choice between running or keep fighting
+     */
      public int fightingMenu(){
          System.out.println("Do you want to keep fighting or do you want to run?");
          System.out.println("1 - Keep fighting");

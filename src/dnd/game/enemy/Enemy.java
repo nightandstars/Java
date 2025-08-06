@@ -1,5 +1,8 @@
 package dnd.game.enemy;
 
+/**
+ * Represents an enemy and its corresponding stats
+ */
 public class Enemy {
     private String name;
     private int attack;
@@ -7,6 +10,14 @@ public class Enemy {
     private String type;
     private int armorClass;
 
+    /**
+     * Creates a new enemy
+     * @param name of the enemy
+     * @param attack of the enemy
+     * @param health of the enemy
+     * @param type = name needed for the DB
+     * @param armorClass what is value needed on a D20 to hit it
+     */
     public Enemy(String name, int attack, int health, String type, int armorClass){
         this.name = name;
         this.attack = attack;

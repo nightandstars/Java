@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handles deserializing of the cells on the board according to their respective class (enemy/loot/empty) and subclass
+ * @param <T>
+ */
 public class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
     private final Class<T> baseType;
     private final String typeFieldName;

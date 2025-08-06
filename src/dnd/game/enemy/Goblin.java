@@ -1,5 +1,8 @@
 package dnd.game.enemy;
 
+/**
+ * Represents a goblin in the game
+ */
 public class Goblin extends Enemy {
     public Goblin(){
         super("Goblin", 1, 6, "Goblin", 10);

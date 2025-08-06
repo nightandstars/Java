@@ -2,6 +2,9 @@ package dnd.game.loot.weapon;
 
 import dnd.game.loot.Loot;
 
+/**
+ * represents a sword in the game
+ */
 public class Sword extends Loot {
     String name = "Sword";
     int attack = 5;

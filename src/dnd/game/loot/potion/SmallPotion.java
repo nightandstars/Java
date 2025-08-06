@@ -2,6 +2,9 @@ package dnd.game.loot.potion;
 
 import dnd.game.loot.Loot;
 
+/**
+ * Represents a small potion in the game
+ */
 public class SmallPotion extends Loot {
     String name = "Small Potion";
     int heal = 2;
