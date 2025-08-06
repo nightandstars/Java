@@ -118,7 +118,7 @@ public class Board implements Dice {
                 endMenu.endOfGameChoice();
             }
             else {
-                Cell currentPosition = board.get((playerPosition - 1));
+                Cell currentPosition = board.get(playerPosition);
                 currentPosition.getDescription();
                 Menu.showMessage("You are on cell " + playerPosition);
                 currentPosition.interact(chosenCharacter, playerPosition, this);
@@ -161,5 +161,21 @@ public class Board implements Dice {
         int diceValue = diceRoll.nextInt(1,21);
         System.out.println("You rolled a " + diceValue);
         return diceValue;
+    }
+
+    public void replaceCell(int position){
+        board.set(position, new EmptyCell());
+    }
+
+    public MySQLBoard getDatabaseBoard(){
+        return databaseBoard;
+    }
+
+    public int getBoardId(){
+        return boardId;
+    }
+
+    public List<Cell> getBoard() {
+        return board;
     }
 }

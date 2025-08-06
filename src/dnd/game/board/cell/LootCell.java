@@ -43,10 +43,12 @@ public class LootCell extends Cell {
                 System.out.println("You got the loot!");
                 character.setEquipment(loot);
                 character.upgradeAttack();
+                board.replaceCell(playerPosition);
             } else if (loot instanceof SmallPotion || loot instanceof LargePotion) {
                 System.out.println("Heal up!");
                 character.setEquipment(loot);
                 character.heal();
+                board.replaceCell(playerPosition);
             }else{
                 Menu.showMessage("You cannot equip this item");
             }
@@ -55,10 +57,12 @@ public class LootCell extends Cell {
                 System.out.println("You got the loot!");
                 character.setEquipment(loot);
                 character.upgradeAttack();
+                board.replaceCell(playerPosition);
             } else if (loot instanceof SmallPotion || loot instanceof LargePotion) {
                 System.out.println("Heal up!");
                 character.setEquipment(loot);
                 character.heal();
+                board.replaceCell(playerPosition);
             }else{
                 Menu.showMessage("You cannot equip this item");
             }

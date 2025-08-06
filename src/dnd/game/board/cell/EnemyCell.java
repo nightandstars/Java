@@ -3,9 +3,11 @@ package dnd.game.board.cell;
 import dnd.game.Menu;
 import dnd.game.board.Board;
 import dnd.game.character.Character;
+import dnd.game.db.MySQLBoard;
 import dnd.game.dice.Dice;
 import dnd.game.enemy.Enemy;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -35,12 +37,12 @@ public class EnemyCell extends Cell implements Dice{
      */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
-        //critical 1/20
         boolean isRunning = false;
         while ((character.getHealth() > 0 || enemy.getHealth() > 0) && !isRunning) {
             characterIsAttacking(character);
             if (enemy.getHealth() <= 0) {
                 Menu.showMessage("You have defeated the enemy! Yay you!");
+                board.replaceCell(playerPosition);
                 break;
             }else{
                 isRunning = enemyIsAttacking(character, isRunning, board);
@@ -84,6 +86,8 @@ public class EnemyCell extends Cell implements Dice{
             character.setHealth(newCharacterHealth);
             if (character.getHealth() <= 0) {
                 Menu.showMessage("Oh no! You died :(");
+                MySQLBoard database = board.getDatabaseBoard();
+                database.updateBoard(board.getBoardId(), board.getBoard());
                 menu.endOfGameChoice();
             }
         } else {
