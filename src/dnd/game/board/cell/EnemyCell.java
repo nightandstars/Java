@@ -54,7 +54,9 @@ public class EnemyCell extends Cell implements Dice{
      */
     private void characterIsAttacking(Character character) {
         int damage = character.getAttack();
-        if (isBeatingArmorClass(character, "character")) {
+        int diceValue = rollD20();
+        if (isBeatingArmorClass(character, "character", diceValue)) {
+            damage = isCritical(diceValue, damage);
             Menu.showMessage("You dealt " + damage + " damage");
             int newEnemyHealth = enemy.getHealth() - damage;
             enemy.setHealth(newEnemyHealth);
@@ -73,10 +75,12 @@ public class EnemyCell extends Cell implements Dice{
      */
     private boolean enemyIsAttacking(Character character, boolean isRunning, Board board) {
         Menu menu = new Menu();
-        int damage2 = enemy.getAttack();
-        if (isBeatingArmorClass(character, "enemy")) {
-            Menu.showMessage("The enemy dealt " + damage2 + " damage");
-            int newCharacterHealth = character.getHealth() - damage2;
+        int damage = enemy.getAttack();
+        int diceValue = rollD20();
+        if (isBeatingArmorClass(character, "enemy", diceValue)) {
+            damage = isCritical(diceValue, damage);
+            Menu.showMessage("The enemy dealt " + damage + " damage");
+            int newCharacterHealth = character.getHealth() - damage;
             character.setHealth(newCharacterHealth);
             if (character.getHealth() <= 0) {
                 Menu.showMessage("Oh no! You died :(");
@@ -107,11 +111,10 @@ public class EnemyCell extends Cell implements Dice{
      * @param whoIsAttacking enemy or character's turn to know which AC to check
      * @return is the AC beaten or not (ie is the hit successful)
      */
-    private boolean isBeatingArmorClass(Character character, String whoIsAttacking){
+    private boolean isBeatingArmorClass(Character character, String whoIsAttacking, int diceValue){
         boolean ACBeaten = false;
         int characterAC = character.getArmorClass();
         int enemyAC = enemy.getArmorClass();
-        int diceValue = rollD20();
         Menu.showMessage("Dice rolled to beat Armor Class: " + diceValue);
         switch (whoIsAttacking){
             case "character":
@@ -151,21 +154,14 @@ public class EnemyCell extends Cell implements Dice{
     }
 
     /**
-     * Checks if the hit is critical upon the D20 roll, critical failure on a 1, critical success on a 20
+     * Checks if the hit is critical upon the D20 roll, critical success on a 20
      * @param diceValue the result of the D20
      * @param damage the damage being inflicted normally
-     * @return damage value modified by the critical (ie 0 or doubled)
+     * @return damage unchanged or times 2 if dice value = 20
      */
     private int isCritical(int diceValue, int damage){
-        // you're trying to figure out how to return damage *2 since damage and diceValue
-        // come from two different methods, dicevalue is beatenAC, damage is charac/enemy attacking
-        switch (diceValue){
-            case 1:
-                damage = 0;
-                break;
-            case 20:
-                 damage *= 2;
-                break;
+        if(diceValue == 20){
+            damage *= 2;
         }
         return damage;
     }
