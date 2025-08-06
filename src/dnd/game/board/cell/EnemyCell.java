@@ -161,6 +161,7 @@ public class EnemyCell extends Cell implements Dice{
      */
     private int isCritical(int diceValue, int damage){
         if(diceValue == 20){
+            Menu.showMessage("Critical success! You do double damage!");
             damage *= 2;
         }
         return damage;

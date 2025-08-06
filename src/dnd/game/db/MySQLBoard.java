@@ -150,5 +150,17 @@ public class MySQLBoard {
         }
     }
 
+    public void deleteBoard(int boardId){
+        try {
+            String sql = "DELETE FROM Board WHERE id = ?";
+            PreparedStatement fill = connection.prepareStatement(sql);
+            fill.setInt(1, boardId);
+            fill.executeUpdate();
+            fill.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

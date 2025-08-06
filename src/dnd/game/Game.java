@@ -34,6 +34,7 @@ public class Game {
        List<Cell> cells = database.loadBoard(boardId);
        board.setScanner(scanner);
        board.setBoard(cells);
+       board.setBoardId(boardId);
        board.moveOnBoard(chosenCharacter);
     }
 

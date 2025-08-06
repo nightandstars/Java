@@ -21,6 +21,7 @@ public class Board implements Dice {
     private MySQLBoard databaseBoard = new MySQLBoard();
     private int playerPosition = 0;
     private Scanner scanner = null;
+    private int boardId = 0;
 
     /**
      * Creates a new board and saves it to the DB, starts character's moves
@@ -29,6 +30,7 @@ public class Board implements Dice {
     public void getBoard(Character chosenCharacter) {
         List<Cell> newBoard = createBoard();
         int boardId = databaseBoard.createBoard(newBoard);
+        this.boardId = boardId;
         Menu.showMessage("Enjoy your game! Your board ID is: " + boardId);
         Menu.showMessage("Keep this somewhere to load your board in future games");
         board = newBoard;
@@ -39,6 +41,10 @@ public class Board implements Dice {
         this.board = board;
     }
     public void setScanner(Scanner scanner){ this.scanner = scanner;}
+
+    public void setBoardId(int boardId) {
+        this.boardId = boardId;
+    }
 
     /**
      * Creates a board (list of cells) with 64 cells, each containing at random an empty cell, an enemy or loot, board has a fixed number of max enemies/loot
@@ -105,14 +111,13 @@ public class Board implements Dice {
         while(playerPosition < board.size()) {
             int moveUp = rollD6();
             playerPosition += moveUp;
-            if(playerPosition > board.size()) {
+            if(playerPosition >= board.size()) {
                 playerPosition = board.size();
                 Menu.showMessage("You have won the game!");
+                databaseBoard.deleteBoard(boardId);
                 endMenu.endOfGameChoice();
-            } else if (playerPosition == board.size()) {
-                Menu.showMessage("You have won the game!");
-                endMenu.endOfGameChoice();
-            }else {
+            }
+            else {
                 Cell currentPosition = board.get((playerPosition - 1));
                 currentPosition.getDescription();
                 Menu.showMessage("You are on cell " + playerPosition);
