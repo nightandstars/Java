@@ -14,7 +14,7 @@ public class Warrior extends Character{
     public Warrior(String name){
         setName(name);
         Random randomNumber = new Random();
-        setAttack(randomNumber.nextInt(5,10)+1);
+        setAttack(5);
         int startingHealth = setMaxHealth(randomNumber.nextInt(5,10)+1);
         setHealth(startingHealth);
         setType("Warrior");
