@@ -4,6 +4,7 @@ import dnd.game.Menu;
 import dnd.game.board.cell.*;
 import dnd.game.character.Character;
 import dnd.game.db.MySQLBoard;
+import dnd.game.db.MySQLHero;
 import dnd.game.dice.Dice;
 import dnd.game.enemy.*;
 import dnd.game.loot.potion.*;
@@ -22,6 +23,7 @@ public class Board implements Dice {
     private int playerPosition = 0;
     private Scanner scanner = null;
     private int boardId = 0;
+    private MySQLHero databaseHero = null;
 
     /**
      * Creates a new board and saves it to the DB, starts character's moves
@@ -127,6 +129,7 @@ public class Board implements Dice {
                 playerPosition = board.size();
                 Menu.showMessage("You have won the game!");
                 databaseBoard.deleteBoard(boardId);
+                databaseHero.updateHero(chosenCharacter);
                 endMenu.endOfGameChoice();
             }
             else {
@@ -189,5 +192,9 @@ public class Board implements Dice {
 
     public List<Cell> getBoard() {
         return board;
+    }
+
+    public void setDatabaseHero(MySQLHero databaseHero) {
+        this.databaseHero = databaseHero;
     }
 }

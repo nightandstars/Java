@@ -6,6 +6,7 @@ import dnd.game.character.Character;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
 import dnd.game.db.MySQLBoard;
+import dnd.game.db.MySQLHero;
 import dnd.game.dice.Dice;
 import dnd.game.enemy.Dragon;
 import dnd.game.enemy.Enemy;
@@ -36,7 +37,7 @@ public class EnemyCell extends Cell implements Dice{
     }
 
     /**
-     * Engages the fight, player hits first, checks if enemy is defeated, else enemy attacks
+     * Checks type of character being played and enemy type to execute fight on certain conditions
      * @param character the character that is being played
      * @param playerPosition the cell on which the character is
      * @param board the board that is being played on
@@ -55,6 +56,12 @@ public class EnemyCell extends Cell implements Dice{
         }
     }
 
+    /**
+     * Starts the fight, player attacks first
+     * @param character being played
+     * @param playerPosition cell on which the character is
+     * @param board that is being played on
+     */
     public void engageFight(Character character, int playerPosition, Board board){
         boolean isRunning = false;
         while ((character.getHealth() > 0 || enemy.getHealth() > 0) && !isRunning) {
@@ -70,14 +77,13 @@ public class EnemyCell extends Cell implements Dice{
     }
 
     /**
-     * Checks if the hit lands and modifies the enemy's health
+     * Checks if the hit lands and modifies the enemy's health, as well as damage according to conditions
      * @param character the character being played and its stats
      */
     private void characterIsAttacking(Character character) {
         int damage = character.getAttack();
         int diceValue = rollD20();
         if (isBeatingArmorClass(character, "character", diceValue)) {
-            //you are implementing the damage based on bow/invisibility spell and correct enemy
             if(character.getEquipment() instanceof Bow && enemy instanceof Dragon){
                 damage += 6;
             } else if (character.getEquipment() instanceof Bow) {
@@ -98,7 +104,7 @@ public class EnemyCell extends Cell implements Dice{
     }
 
     /**
-     * Checks if the hit lands and modifies the character's health, checks if character is dead, else option to run or keep fighting
+     * Checks if the hit lands modifies the character's health and enemy's damage according to conditions, checks if character is dead, else option to run or keep fighting
      * @param character the character being played and its stats
      * @param isRunning is the player running from the fight, false by default
      * @param board the board being played on
@@ -106,17 +112,22 @@ public class EnemyCell extends Cell implements Dice{
      */
     private boolean enemyIsAttacking(Character character, boolean isRunning, Board board) {
         Menu menu = new Menu();
+        MySQLHero databaseHero = menu.getDatabaseHero();
         int damage = enemy.getAttack();
         int diceValue = rollD20();
         if (isBeatingArmorClass(character, "enemy", diceValue)) {
             damage = isCritical(diceValue, damage);
             Menu.showMessage("The enemy dealt " + damage + " damage");
             int newCharacterHealth = character.getHealth() - damage;
+            if(newCharacterHealth <= 0){
+                newCharacterHealth = 0;
+            }
             character.setHealth(newCharacterHealth);
             if (character.getHealth() <= 0) {
                 Menu.showMessage("Oh no! You died :(");
                 MySQLBoard database = board.getDatabaseBoard();
                 database.updateBoard(board.getBoardId(), board.getBoard());
+                databaseHero.updateHero(character);
                 menu.endOfGameChoice();
             }
         } else {

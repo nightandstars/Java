@@ -71,18 +71,14 @@ public class MySQLHero {
      * @param name of the character chosen by the player
      */
    public void createHero(Character character, String name){
-        String type = character.getType();
-        int health = character.getHealth();
-        int attack = character.getAttack();
-        int armorClass = character.getArmorClass();
         try{
             String sql = "INSERT INTO Characters (name, type, health, attack, armor_class) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement fill = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             fill.setString(1, name);
-            fill.setString(2, type);
-            fill.setInt(3, health);
-            fill.setInt(4, attack);
-            fill.setInt(4, armorClass);
+            fill.setString(2, character.getType());
+            fill.setInt(3, character.getHealth());
+            fill.setInt(4, character.getAttack());
+            fill.setInt(4, character.getArmorClass());
             fill.executeUpdate();
 
             ResultSet result = fill.getGeneratedKeys();
@@ -109,24 +105,25 @@ public class MySQLHero {
             fill.setInt(2, character.getId());
             fill.executeUpdate();
             fill.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
    }
 
     /**
-     * Changes the health of the character (ie saving the character's current status for later games when exiting game before it is finished)
-     * @param character to be changed
+     * At the end of a game, saves the character's current status to the DB
+     * @param character being played
      */
-   public void changeHealth(Character character){
+   public void updateHero(Character character){
        try{
-           String sql = "UPDATE Characters SET health = ? WHERE id = ? ";
+           String sql = "UPDATE Characters SET attack = ?, health = ? WHERE id = ?";
            PreparedStatement fill = connection.prepareStatement(sql);
-           fill.setInt(1, character.getHealth());
-           fill.setInt(2, character.getId());
+           fill.setInt(1, character.getAttack());
+           fill.setInt(2, character.getHealth());
+           fill.setInt(3, character.getId());
            fill.executeUpdate();
            fill.close();
-       } catch (Exception e) {
+       }catch(SQLException e){
            e.printStackTrace();
        }
    }
@@ -149,8 +146,8 @@ public class MySQLHero {
 //                int offensiveLootId = result.getInt("offensive_loot_id");
 //                int defensiveLootId = result.getInt("defensive_loot_id");
                 Character character = switch (type) {
-                    case "Warrior" -> new Warrior(name, attack, health);
-                    case "Wizard" -> new Wizard(name, attack, health);
+                    case "Warrior" -> new Warrior(name, attack, health, characterId);
+                    case "Wizard" -> new Wizard(name, attack, health, characterId);
                     default -> null;
                 };
                 menu.setChosenCharacter(character);

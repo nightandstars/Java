@@ -27,8 +27,9 @@ public class Wizard extends Character{
      * @param name name chosen by the player
      * @param attack attack saved in the DB
      * @param health health saved in the DB
+     * @param id the id saved in the DB
      */
-    public Wizard(String name, int attack, int health){
+    public Wizard(String name, int attack, int health, int id){
         setName(name);
         setAttack(attack);
         setMaxHealth(6);
@@ -36,5 +37,6 @@ public class Wizard extends Character{
         setType("Wizard");
         setMaxAttack(15);
         setArmorClass(10);
+        setId(id);
     }
 }

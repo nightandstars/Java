@@ -27,8 +27,9 @@ public class Warrior extends Character{
      * @param name the name chosen by the player
      * @param attack the attack saved in the DB
      * @param health the health saved in the DB
+     * @param id the id saved in the DB
      */
-    public Warrior(String name, int attack, int health){
+    public Warrior(String name, int attack, int health, int id){
         setName(name);
         setAttack(attack);
         setMaxHealth(10);
@@ -36,5 +37,6 @@ public class Warrior extends Character{
         setType("Warrior");
         setMaxAttack(10);
         setArmorClass(12);
+        setId(id);
     }
 }

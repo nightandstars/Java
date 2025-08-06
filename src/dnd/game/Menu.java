@@ -14,7 +14,7 @@ public class Menu {
 
     private Scanner myScanner = new Scanner(System.in);
     private Character chosenCharacter = null;
-    private MySQLHero database = new MySQLHero(this);
+    private MySQLHero databaseHero = new MySQLHero(this);
 
     /**
      * This lets the player create a new character, load an existing one or exit the game
@@ -33,7 +33,7 @@ public class Menu {
             case 2:
                 System.out.println("What is the id of the Character you wish to load?");
                 int characterId = myScanner.nextInt();
-                database.loadCharacter(characterId);
+                databaseHero.loadCharacter(characterId);
                 characterInfo();
                 break;
             case 3:
@@ -90,7 +90,7 @@ public class Menu {
                 System.out.println("What is the new name of your character?");
                 String newName = myScanner.nextLine();
                 chosenCharacter.setName(newName);
-                database.editHero(this.chosenCharacter, newName);
+                databaseHero.editHero(this.chosenCharacter, newName);
                 this.characterInfo();
                 break;
             case 3:
@@ -136,12 +136,14 @@ public class Menu {
         switch (choice) {
             case 1:
                 game.getScanner(myScanner);
+                game.getDatabaseHero(databaseHero);
                 game.startNewGame(this.chosenCharacter);
                 break;
             case 2:
                 System.out.println("What is the id of the board you wish to load?");
                 int boardId = myScanner.nextInt();
                 game.getScanner(myScanner);
+                game.getDatabaseHero(databaseHero);
                 game.loadPreviousGame(boardId, this.chosenCharacter);
             case 3:
                 this.characterInfo();
@@ -187,6 +189,10 @@ public class Menu {
 
      public void setChosenCharacter(Character character){
          this.chosenCharacter = character;
+     }
+
+     public MySQLHero getDatabaseHero(){
+         return databaseHero;
      }
 }
 
