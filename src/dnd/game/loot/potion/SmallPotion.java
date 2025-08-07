@@ -1,32 +1,12 @@
 package dnd.game.loot.potion;
 
-import dnd.game.loot.Loot;
-
 /**
  * Represents a small potion in the game
  */
-public class SmallPotion extends Loot {
-    String name = "Small Potion";
-    int heal = 2;
-    String type = "SmallPotion";
+public class SmallPotion extends Potion {
 
-    @Override
-    public int getAttack() {
-        return 0;
+    public SmallPotion(){
+        super("Small Potion", 2, "A Small Potion, time to heal!", "Small potion, effect: +" + 2 + " health", "SmallPotion");
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getHeal() {
-        return heal;
-    }
-
-    @Override
-    public String getDescription() {
-        return "A Small Potion, time to heal!";
-    }
 }

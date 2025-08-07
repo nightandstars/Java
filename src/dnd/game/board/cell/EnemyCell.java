@@ -70,7 +70,8 @@ public class EnemyCell extends Cell implements Dice{
                 Menu.showMessage("You have defeated the enemy! Yay you!");
                 board.replaceCell(playerPosition);
                 break;
-            }else{
+            }
+            else{
                 isRunning = enemyIsAttacking(character, isRunning, board);
             }
         }
@@ -84,15 +85,16 @@ public class EnemyCell extends Cell implements Dice{
         int damage = character.getAttack();
         int diceValue = rollD20();
         if (isBeatingArmorClass(character, "character", diceValue)) {
-            if(character.getEquipment() instanceof Bow && enemy instanceof Dragon){
-                damage += 6;
-            } else if (character.getEquipment() instanceof Bow) {
-                damage += 4;
-            } else if (character.getEquipment() instanceof Invisibility && enemy instanceof EvilSpirit) {
-                damage += 8;
-            } else if (character.getEquipment() instanceof Invisibility) {
-                damage += 5;
-            }
+            //all this needs to change
+//            if(character.getInventory() instanceof Bow && enemy instanceof Dragon){
+//                damage += 6;
+//            } else if (character.getInventory() instanceof Bow) {
+//                damage += 4;
+//            } else if (character.getInventory() instanceof Invisibility && enemy instanceof EvilSpirit) {
+//                damage += 8;
+//            } else if (character.getInventory() instanceof Invisibility) {
+//                damage += 5;
+//            }
             damage = isCritical(diceValue, damage);
             Menu.showMessage("You dealt " + damage + " damage");
             int newEnemyHealth = enemy.getHealth() - damage;
@@ -127,7 +129,7 @@ public class EnemyCell extends Cell implements Dice{
                 Menu.showMessage("Oh no! You died :(");
                 MySQLBoard database = board.getDatabaseBoard();
                 database.updateBoard(board.getBoardId(), board.getBoard());
-                databaseHero.updateHero(character);
+                databaseHero.updateHero(character, character.getInventory());
                 menu.endOfGameChoice();
             }
         } else {

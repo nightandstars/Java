@@ -5,28 +5,10 @@ import dnd.game.loot.Loot;
 /**
  * represents a sword in the game
  */
-public class Sword extends Loot {
-    private String name = "Sword";
-    private int attack = 5;
-    private String type = "SwordWeapon";
+public class Sword extends Weapon {
 
-    @Override
-    public int getAttack() {
-        return attack;
+    public Sword(){
+        super("Sword", 5, "Time to slice! You got a sword", "Sword, effect: +" + 5 + " attack", 0, "Sword");
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getHeal() {
-        return 0;
-    }
-
-    @Override
-    public String getDescription() {
-        return "Time to slice! You got a sword";
-    }
 }

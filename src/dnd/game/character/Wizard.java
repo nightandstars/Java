@@ -32,7 +32,7 @@ public class Wizard extends Character{
     public Wizard(String name, int attack, int health, int id){
         setName(name);
         setAttack(attack);
-        setMaxHealth(6);
+        setMaxHealth(health);
         setHealth(health);
         setType("Wizard");
         setMaxAttack(15);

@@ -32,7 +32,7 @@ public class Warrior extends Character{
     public Warrior(String name, int attack, int health, int id){
         setName(name);
         setAttack(attack);
-        setMaxHealth(10);
+        setMaxHealth(health);
         setHealth(health);
         setType("Warrior");
         setMaxAttack(10);

@@ -1,11 +1,17 @@
 package dnd.game.db;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dnd.game.Menu;
 import dnd.game.character.Character;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
+import dnd.game.loot.Loot;
 
+import java.lang.reflect.Type;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents and allows interaction with a Characters table in MySQL DB
@@ -16,6 +22,7 @@ public class MySQLHero {
     private ResultSet result = null;
     private Connection connection;
     private Menu menu = null;
+    private Gson gson = GsonFactory.getGson();
 
     /**
      * Connects to the database
@@ -114,13 +121,15 @@ public class MySQLHero {
      * At the end of a game, saves the character's current status to the DB
      * @param character being played
      */
-   public void updateHero(Character character){
+   public void updateHero(Character character, List<Loot> inventory){
        try{
-           String sql = "UPDATE Characters SET attack = ?, health = ? WHERE id = ?";
+           String sql = "UPDATE Characters SET attack = ?, health = ?, inventory = ? WHERE id = ?";
+           String json = gson.toJson(inventory);
            PreparedStatement fill = connection.prepareStatement(sql);
            fill.setInt(1, character.getAttack());
            fill.setInt(2, character.getHealth());
-           fill.setInt(3, character.getId());
+           fill.setString(3, json);
+           fill.setInt(4, character.getId());
            fill.executeUpdate();
            fill.close();
        }catch(SQLException e){
@@ -143,14 +152,20 @@ public class MySQLHero {
                 String type = result.getString("type");
                 int health = result.getInt("health");
                 int attack = result.getInt("attack");
-//                int offensiveLootId = result.getInt("offensive_loot_id");
-//                int defensiveLootId = result.getInt("defensive_loot_id");
+                String json = result.getString("inventory");
                 Character character = switch (type) {
                     case "Warrior" -> new Warrior(name, attack, health, characterId);
                     case "Wizard" -> new Wizard(name, attack, health, characterId);
                     default -> null;
                 };
-                menu.setChosenCharacter(character);
+                if(character != null){
+                    Type lootListType = new TypeToken<List<Loot>>(){}.getType();
+                    List<Loot> inventory = (json.equals("null") || json.isBlank() || json == null )
+                            ? new ArrayList<>(4)
+                            : gson.fromJson(json, lootListType);
+                    character.setInventory(inventory);
+                    menu.setChosenCharacter(character);
+                }
             }
             result.close();
             fill.close();

@@ -5,28 +5,10 @@ import dnd.game.loot.Loot;
 /**
  * represents a mace in the game
  */
-public class Bow extends Loot {
-    String name = "Bow";
-    int attack = 0;
-    String type = "BowWeapon";
+public class Bow extends Weapon {
 
-    @Override
-    public int getAttack() {
-        return attack;
+    public Bow(){
+        super("Bow", 4, "An arrow between the eyes, you got a bow", "Bow, effect: +" + 6 + " attack against Dragons and +" +4 + " against other enemies", 4, "Bow");
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getHeal() {
-        return 0;
-    }
-
-    @Override
-    public String getDescription() {
-        return "An arrow between the eyes, you got a bow";
-    }
 }

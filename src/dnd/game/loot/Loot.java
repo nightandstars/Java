@@ -6,11 +6,7 @@ package dnd.game.loot;
  */
 public abstract class Loot {
 
-    public abstract String getName();
-
-    public abstract int getAttack();
-
-    public abstract int getHeal();
-
     public abstract String getDescription();
+
+    public abstract String getInventoryDescription();
 }

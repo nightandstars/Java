@@ -1,32 +1,12 @@
 package dnd.game.loot.spell;
 
-import dnd.game.loot.Loot;
-
 /**
  * represents a lightning spell in the game
  */
-public class Lightning extends Loot {
-    String name = "Lightning";
-    int attack = 2;
-    String type = "LightningSpell";
+public class Lightning extends Spell {
 
-    @Override
-    public int getAttack() {
-        return attack;
+    public Lightning(){
+        super("Lightning", 2, "Call the lightning! Zap", "Lightning Spell, effect: +" + 2 + " attack", 0, "Lightning");
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getHeal() {
-        return 0;
-    }
-
-    @Override
-    public String getDescription() {
-        return "Call the lightning! Zap";
-    }
 }

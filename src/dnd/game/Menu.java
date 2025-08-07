@@ -142,6 +142,7 @@ public class Menu {
             case 2:
                 System.out.println("What is the id of the board you wish to load?");
                 int boardId = myScanner.nextInt();
+                myScanner.nextLine();
                 game.getScanner(myScanner);
                 game.getDatabaseHero(databaseHero);
                 game.loadPreviousGame(boardId, this.chosenCharacter);
@@ -161,6 +162,7 @@ public class Menu {
          System.out.println("1 - Start a new game");
          System.out.println("2 - Exit");
          int choice = myScanner.nextInt();
+         myScanner.nextLine();
          switch (choice) {
              case 1:
                  this.startingMenu();
@@ -180,6 +182,7 @@ public class Menu {
          System.out.println("1 - Keep fighting");
          System.out.println("2 - Run");
          int choice = myScanner.nextInt();
+         myScanner.nextLine();
          return choice;
      }
 
@@ -193,6 +196,20 @@ public class Menu {
 
      public MySQLHero getDatabaseHero(){
          return databaseHero;
+     }
+
+     public int choosePickupOrDrop(){
+         System.out.println("You can't pick up anymore of this kind of item, choose an option:");
+         System.out.println("1 - Replace another item");
+         System.out.println("2 - Leave it");
+         int choice = myScanner.nextInt();
+         myScanner.nextLine();
+         return choice;
+     }
+
+     public int itemToReplace(){
+         System.out.println("Which item do you want to replace? (enter the number)");
+         return myScanner.nextInt();
      }
 }
 

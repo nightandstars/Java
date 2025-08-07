@@ -1,32 +1,12 @@
 package dnd.game.loot.potion;
 
-import dnd.game.loot.Loot;
-
 /**
  * Represents a large potion in the game
  */
-public class LargePotion extends Loot {
-    String name = "Large Potion";
-    int heal = 5;
-    String type = "LargePotion";
+public class LargePotion extends Potion {
 
-    @Override
-    public int getAttack() {
-        return 0;
-    }
+ public LargePotion(){
+     super("Large Potion", 5, "A Large Potion, time to heal!", "Large potion, effect: +" + 5 + " health", "LargePotion");
+ }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getHeal() {
-        return heal;
-    }
-
-    @Override
-    public String getDescription() {
-        return "A Large Potion, time to heal!";
-    }
 }

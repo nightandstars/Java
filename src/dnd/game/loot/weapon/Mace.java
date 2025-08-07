@@ -5,28 +5,10 @@ import dnd.game.loot.Loot;
 /**
  * represents a mace in the game
  */
-public class Mace extends Loot {
-    String name = "Mace";
-    int attack = 3;
-    String type = "MaceWeapon";
+public class Mace extends Weapon {
 
-    @Override
-    public int getAttack() {
-        return attack;
+    public Mace(){
+        super("Mace", 3, "Boink! This mace is going to hurt", "Mace, effect: +" + 3 + " attack", 0, "Mace");
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getHeal() {
-        return 0;
-    }
-
-    @Override
-    public String getDescription() {
-        return "Boink! This mace is going to hurt";
-    }
 }

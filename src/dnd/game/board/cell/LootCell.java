@@ -6,14 +6,9 @@ import dnd.game.character.Character;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
 import dnd.game.loot.Loot;
-import dnd.game.loot.potion.LargePotion;
-import dnd.game.loot.potion.SmallPotion;
-import dnd.game.loot.spell.Fireball;
-import dnd.game.loot.spell.Invisibility;
-import dnd.game.loot.spell.Lightning;
-import dnd.game.loot.weapon.Bow;
-import dnd.game.loot.weapon.Mace;
-import dnd.game.loot.weapon.Sword;
+import dnd.game.loot.potion.Potion;
+import dnd.game.loot.spell.Spell;
+import dnd.game.loot.weapon.Weapon;
 
 /**
  * Represents a cell containing loot on the board
@@ -43,30 +38,30 @@ public class LootCell extends Cell {
     @Override
     public void interact(Character character, int playerPosition, Board board) {
         if (character instanceof Warrior) {
-            if (loot instanceof Mace || loot instanceof Sword || loot instanceof Bow) {
+            if (loot instanceof Weapon) {
                 System.out.println("You got the loot!");
-                character.setEquipment(loot);
-                character.upgradeAttack();
-                board.replaceCell(playerPosition);
-            } else if (loot instanceof SmallPotion || loot instanceof LargePotion) {
+//                character.addInventory((Weapon)loot);
+//                board.replaceCell(playerPosition);
+            } else if (loot instanceof Potion) {
                 System.out.println("Heal up!");
-                character.setEquipment(loot);
-                character.heal();
-                board.replaceCell(playerPosition);
+                boolean isPickedUp = character.heal((Potion) loot);
+                if(isPickedUp){
+                    board.replaceCell(playerPosition);
+                }
             }else{
                 Menu.showMessage("You cannot equip this item");
             }
         } else if (character instanceof Wizard) {
-            if (loot instanceof Lightning || loot instanceof Fireball || loot instanceof Invisibility) {
+            if (loot instanceof Spell) {
                 System.out.println("You got the loot!");
-                character.setEquipment(loot);
-                character.upgradeAttack();
-                board.replaceCell(playerPosition);
-            } else if (loot instanceof SmallPotion || loot instanceof LargePotion) {
+//                character.addInventory((Spell)loot);
+//                board.replaceCell(playerPosition);
+            } else if (loot instanceof Potion) {
                 System.out.println("Heal up!");
-                character.setEquipment(loot);
-                character.heal();
-                board.replaceCell(playerPosition);
+                boolean isPickedUp = character.heal((Potion)loot);
+                if(isPickedUp){
+                    board.replaceCell(playerPosition);
+                }
             }else{
                 Menu.showMessage("You cannot equip this item");
             }

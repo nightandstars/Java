@@ -1,6 +1,10 @@
 package dnd.game.character;
 import dnd.game.Menu;
 import dnd.game.loot.Loot;
+import dnd.game.loot.potion.Potion;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the character that is being played and its stats
@@ -9,12 +13,13 @@ public abstract class Character {
     private String name;
     private int health;
     private int attack;
-    private Loot equipment;
+    private List<Loot> inventory = new ArrayList<>(4) ;
     private String type;
     private int maxHealth;
     private int id;
     private int maxAttack;
     private int armorClass;
+    private Menu menu = new Menu();
 
     public int getHealth(){
         return health;
@@ -49,8 +54,19 @@ public abstract class Character {
         return attack;
     }
 
-    public Loot getEquipment() {
-        return equipment;
+    public void showInventory() {
+        for(Loot loot : inventory){
+            Menu.showMessage("You have in your inventory: ");
+            Menu.showMessage(loot.getInventoryDescription());
+        }
+    }
+
+    public List<Loot> getInventory(){
+        return inventory;
+    }
+
+    public void setInventory(List<Loot> inventory) {
+        this.inventory = inventory;
     }
 
     public void setAttack(int attack) {
@@ -60,38 +76,54 @@ public abstract class Character {
     /**
      * When the character finds a potion checks their health, if max nothing happens, else heals according to the potion's stats
      */
-    public void heal(){
-        int newHealth = equipment.getHeal();
-        if((this.health + newHealth) > maxHealth){
-            this.health = maxHealth;
-            Menu.showMessage("You're already full health");
+    public boolean heal(Potion loot) {
+        boolean isPickedUp = false;
+        if (health < maxHealth) {
+            int newHealth = loot.getHeal();
+            if((this.health + newHealth) > maxHealth){
+                this.health = maxHealth;
+                Menu.showMessage("You are now full health");
+            }else{
+                health += newHealth;
+                Menu.showMessage("You now have " + health + " health");
+            }
+            isPickedUp = true;
+        } else if(countPotionsInInventory() < 2) {
+            addInventory(loot);
+            Menu.showMessage("The potion has been added to your inventory");
         }else {
-            this.health += newHealth;
-            Menu.showMessage("You now have " + health + " health");
-        }
+                getPotionsInInventory();
+                int choice = menu.choosePickupOrDrop();
+                if(choice ==1){
+                    int index = menu.itemToReplace();
+                    inventory.set(index ,loot);
+                    isPickedUp = true;
+                }
+            }
+        return isPickedUp;
     }
 
     /**
      * When the character finds a weapon/spell checks their attack, if max nothing happens, else upgrades their attack according to the weapon's/spell's stats
      */
-    public void upgradeAttack(){
-        int newAttack = equipment.getAttack();
-        if((attack + newAttack) > maxAttack){
-            attack = maxAttack;
-            Menu.showMessage("You're already too powerful");
-        }else{
-            Menu.showMessage("Your previous attack was " + attack);
-            attack += newAttack;
-            Menu.showMessage("Your new attack is " + attack);
-        }
-    }
+//    public void upgradeAttack(){
+//        int newAttack = inventory.getAttack();
+//        if((attack + newAttack) > maxAttack){
+//            attack = maxAttack;
+//            Menu.showMessage("You're already too powerful");
+//        }else{
+//            Menu.showMessage("Your previous attack was " + attack);
+//            attack += newAttack;
+//            Menu.showMessage("Your new attack is " + attack);
+//        }
+//    }
 
     public void setHealth(int health) {
         this.health = health;
     }
 
-    public void setEquipment(Loot equipment) {
-        this.equipment = equipment;
+    public void addInventory(Loot loot) {
+        inventory.add(loot);
     }
 
     public void setName(String name) {
@@ -117,4 +149,19 @@ public abstract class Character {
     public String toString(){
         return name + " is a " + type + " with " + health + " health and " + attack + " attack";
     }
+
+    private int countPotionsInInventory(){
+        return (int) inventory.stream().filter(loot -> loot instanceof Potion).count();
+    }
+
+    public void getPotionsInInventory(){
+        Menu.showMessage("Here are the potions in your inventory:");
+        for(Loot loot : inventory){
+            if(loot instanceof Potion){
+                Menu.showMessage("[" + inventory.indexOf(loot) + "] " + loot.getInventoryDescription());
+            }
+        }
+    }
+
+
 }
