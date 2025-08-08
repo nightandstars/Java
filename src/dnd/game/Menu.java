@@ -202,9 +202,7 @@ public class Menu {
          System.out.println("You can't pick up anymore of this kind of item, choose an option:");
          System.out.println("1 - Replace another item");
          System.out.println("2 - Leave it");
-         int choice = myScanner.nextInt();
-         myScanner.nextLine();
-         return choice;
+         return myScanner.nextInt();
      }
 
      public int itemToReplace(){

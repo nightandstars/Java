@@ -2,6 +2,8 @@ package dnd.game.character;
 import dnd.game.Menu;
 import dnd.game.loot.Loot;
 import dnd.game.loot.potion.Potion;
+import dnd.game.loot.spell.Spell;
+import dnd.game.loot.weapon.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +67,10 @@ public abstract class Character {
         return inventory;
     }
 
+    public void replaceItemInInventory(int index, Loot loot){
+        inventory.set(index, loot);
+    }
+
     public void setInventory(List<Loot> inventory) {
         this.inventory = inventory;
     }
@@ -80,8 +86,8 @@ public abstract class Character {
         boolean isPickedUp = false;
         if (health < maxHealth) {
             int newHealth = loot.getHeal();
-            if((this.health + newHealth) > maxHealth){
-                this.health = maxHealth;
+            if((health + newHealth) > maxHealth){
+                health = maxHealth;
                 Menu.showMessage("You are now full health");
             }else{
                 health += newHealth;
@@ -106,11 +112,19 @@ public abstract class Character {
     /**
      * When the character finds a weapon/spell checks their attack, if max nothing happens, else upgrades their attack according to the weapon's/spell's stats
      */
-//    public void upgradeAttack(){
-//        int newAttack = inventory.getAttack();
-//        if((attack + newAttack) > maxAttack){
-//            attack = maxAttack;
-//            Menu.showMessage("You're already too powerful");
+//    public void useWeaponDuringFight(Weapon loot, int choice){
+//        if(choice == 1){
+//
+//        }
+//        if(attack < maxAttack){
+//            int newAttack = loot.getAttack();
+//            if((attack + newAttack) > maxAttack){
+//                attack = maxAttack;
+//                Menu.showMessage("You're already too powerful");
+//        }
+//
+//
+//
 //        }else{
 //            Menu.showMessage("Your previous attack was " + attack);
 //            attack += newAttack;
@@ -158,6 +172,32 @@ public abstract class Character {
         Menu.showMessage("Here are the potions in your inventory:");
         for(Loot loot : inventory){
             if(loot instanceof Potion){
+                Menu.showMessage("[" + inventory.indexOf(loot) + "] " + loot.getInventoryDescription());
+            }
+        }
+    }
+
+    public int countWeaponsInInventory(){
+        return (int) inventory.stream().filter(loot -> loot instanceof Weapon).count();
+    }
+
+    public int countSpellsInInventory(){
+        return (int) inventory.stream().filter(loot -> loot instanceof Spell).count();
+    }
+
+    public void getWeaponsInInventory(){
+        Menu.showMessage("Here are the weapons in your inventory:");
+        for(Loot loot : inventory){
+            if(loot instanceof Weapon){
+                Menu.showMessage("[" + inventory.indexOf(loot) + "] " + loot.getInventoryDescription());
+            }
+        }
+    }
+
+    public void getSpellsInInventory(){
+        Menu.showMessage("Here are the spells in your inventory:");
+        for(Loot loot : inventory){
+            if(loot instanceof Spell){
                 Menu.showMessage("[" + inventory.indexOf(loot) + "] " + loot.getInventoryDescription());
             }
         }

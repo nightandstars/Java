@@ -37,28 +37,57 @@ public class LootCell extends Cell {
      */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
+        Menu menu = new Menu();
+        boolean isPickedUp = false;
         if (character instanceof Warrior) {
             if (loot instanceof Weapon) {
-                System.out.println("You got the loot!");
-//                character.addInventory((Weapon)loot);
-//                board.replaceCell(playerPosition);
-            } else if (loot instanceof Potion) {
+                if (character.countWeaponsInInventory() < 2) {
+                    character.addInventory(loot);
+                    Menu.showMessage("The weapon has been added to your inventory");
+                    isPickedUp = true;
+                } else {
+                    character.getWeaponsInInventory();
+                    int choice = menu.choosePickupOrDrop();
+                    if (choice == 1) {
+                        int index = menu.itemToReplace();
+                        character.replaceItemInInventory(index, loot);
+                        isPickedUp = true;
+                    }
+                }if(isPickedUp){
+                    board.replaceCell(playerPosition);
+                }
+            }
+        else if (loot instanceof Potion) {
                 System.out.println("Heal up!");
-                boolean isPickedUp = character.heal((Potion) loot);
+                isPickedUp = character.heal((Potion)loot);
                 if(isPickedUp){
                     board.replaceCell(playerPosition);
                 }
             }else{
                 Menu.showMessage("You cannot equip this item");
             }
-        } else if (character instanceof Wizard) {
+        }
+
+        else if (character instanceof Wizard) {
             if (loot instanceof Spell) {
-                System.out.println("You got the loot!");
-//                character.addInventory((Spell)loot);
-//                board.replaceCell(playerPosition);
+                if (character.countSpellsInInventory() < 2) {
+                    character.addInventory(loot);
+                    Menu.showMessage("The spell has been added to your inventory");
+                    isPickedUp = true;
+                } else {
+                    character.getSpellsInInventory();
+                    int choice = menu.choosePickupOrDrop();
+                    if (choice == 1) {
+                        int index = menu.itemToReplace();
+                        character.replaceItemInInventory(index, loot);
+                        isPickedUp = true;
+                    }
+                }if(isPickedUp){
+                    board.replaceCell(playerPosition);
+                }
             } else if (loot instanceof Potion) {
                 System.out.println("Heal up!");
-                boolean isPickedUp = character.heal((Potion)loot);
+                isPickedUp = character.heal((Potion)loot);
                 if(isPickedUp){
                     board.replaceCell(playerPosition);
                 }
