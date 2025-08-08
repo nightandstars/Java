@@ -2,6 +2,7 @@ package dnd.game.db;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSerializer;
 import dnd.game.board.cell.Cell;
 import dnd.game.board.cell.EmptyCell;
 import dnd.game.board.cell.EnemyCell;
@@ -45,6 +46,7 @@ public class GsonFactory {
                             .registerSubtype(EnemyCell.class, "enemy")
                             .registerSubtype(LootCell.class, "loot")
             )
+            .registerTypeAdapter(ThreadLocal.class, (JsonSerializer<ThreadLocal<?>>) (src, typeOfSrc, context) -> null)
             .create();
 
     public static Gson getGson() {

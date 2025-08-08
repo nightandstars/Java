@@ -1,8 +1,13 @@
 package dnd.game.character;
 import dnd.game.Menu;
+import dnd.game.enemy.Dragon;
+import dnd.game.enemy.Enemy;
+import dnd.game.enemy.EvilSpirit;
 import dnd.game.loot.Loot;
 import dnd.game.loot.potion.Potion;
+import dnd.game.loot.spell.Invisibility;
 import dnd.game.loot.spell.Spell;
+import dnd.game.loot.weapon.Bow;
 import dnd.game.loot.weapon.Weapon;
 
 import java.util.ArrayList;
@@ -71,6 +76,10 @@ public abstract class Character {
         inventory.set(index, loot);
     }
 
+    public Loot getItemInInventory(int index){
+        return inventory.get(index);
+    }
+
     public void setInventory(List<Loot> inventory) {
         this.inventory = inventory;
     }
@@ -112,25 +121,39 @@ public abstract class Character {
     /**
      * When the character finds a weapon/spell checks their attack, if max nothing happens, else upgrades their attack according to the weapon's/spell's stats
      */
-//    public void useWeaponDuringFight(Weapon loot, int choice){
-//        if(choice == 1){
-//
-//        }
-//        if(attack < maxAttack){
-//            int newAttack = loot.getAttack();
-//            if((attack + newAttack) > maxAttack){
-//                attack = maxAttack;
-//                Menu.showMessage("You're already too powerful");
-//        }
-//
-//
-//
-//        }else{
-//            Menu.showMessage("Your previous attack was " + attack);
-//            attack += newAttack;
-//            Menu.showMessage("Your new attack is " + attack);
-//        }
-//    }
+    public int useItemDuringFight(Loot loot, Enemy enemy, int characterAttack) {
+        if (characterAttack < maxAttack) {
+
+        if (loot instanceof Weapon) {
+            if (loot instanceof Bow && enemy instanceof Dragon) {
+                characterAttack += ((Bow) loot).getSpecialAttackEffect();
+            } else if (loot instanceof Bow) {
+                characterAttack += ((Bow) loot).getAttack();
+            }
+            else{
+                characterAttack += ((Weapon) loot).getAttack();
+                }
+
+        } else if(loot instanceof Spell) {
+            if (loot instanceof Invisibility && enemy instanceof EvilSpirit) {
+                characterAttack += ((Invisibility) loot).getSpecialAttackEffect();
+            } else if (loot instanceof Invisibility) {
+                characterAttack += ((Invisibility) loot).getAttackEffect();
+            }else{
+                characterAttack += ((Spell) loot).getAttackEffect();
+            }
+        }
+
+        if ((characterAttack) > maxAttack) {
+                characterAttack = maxAttack;
+                Menu.showMessage("Your attack is maxed out");
+        } else {
+                Menu.showMessage("Your previous attack was " + attack);
+                Menu.showMessage("Your new attack is " + characterAttack);
+            }
+        }
+        return characterAttack;
+    }
 
     public void setHealth(int health) {
         this.health = health;

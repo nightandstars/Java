@@ -10,6 +10,6 @@ public class Dragon extends Enemy {
 
     @Override
     public String getDescription() {
-        return "Woosh Woosh, a Dragon appeared over you, take cover!";
+        return "Woosh Woosh, a Dragon appeared over you, take cover! It has ";
     }
 }

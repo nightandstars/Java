@@ -21,7 +21,7 @@ public class Board implements Dice {
     private List<Cell> board = new ArrayList<>(64);
     private MySQLBoard databaseBoard = new MySQLBoard();
     private int playerPosition = 0;
-    private Scanner scanner = null;
+    private transient Scanner scanner = null;
     private int boardId = 0;
     private MySQLHero databaseHero = null;
 
@@ -54,8 +54,8 @@ public class Board implements Dice {
      */
     private List<Cell> createBoard() {
         Random randomType = new Random();
-        final int MAX_ENEMIES = 12;
-        final int MAX_LOOT = 36;
+        final int MAX_ENEMIES = 24;
+        final int MAX_LOOT = 24;
         final int MAX_CELLS = 65;
         int enemiesAdded = 0;
         int lootAdded = 0;

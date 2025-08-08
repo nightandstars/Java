@@ -58,7 +58,6 @@ public class LootCell extends Cell {
                 }
             }
         else if (loot instanceof Potion) {
-                System.out.println("Heal up!");
                 isPickedUp = character.heal((Potion)loot);
                 if(isPickedUp){
                     board.replaceCell(playerPosition);
@@ -86,7 +85,6 @@ public class LootCell extends Cell {
                     board.replaceCell(playerPosition);
                 }
             } else if (loot instanceof Potion) {
-                System.out.println("Heal up!");
                 isPickedUp = character.heal((Potion)loot);
                 if(isPickedUp){
                     board.replaceCell(playerPosition);

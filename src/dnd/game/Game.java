@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Game {
     private Board board = new Board();
     private MySQLBoard database = new MySQLBoard();
-    private Scanner scanner = null;
+    private transient Scanner scanner = null;
     private MySQLHero databaseHero = null;
 
     /**

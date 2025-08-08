@@ -8,12 +8,10 @@ import dnd.game.character.Wizard;
 import dnd.game.db.MySQLBoard;
 import dnd.game.db.MySQLHero;
 import dnd.game.dice.Dice;
-import dnd.game.enemy.Dragon;
 import dnd.game.enemy.Enemy;
 import dnd.game.enemy.EvilSpirit;
 import dnd.game.enemy.Orc;
-import dnd.game.loot.spell.Invisibility;
-import dnd.game.loot.weapon.Bow;
+import dnd.game.loot.Loot;
 
 import java.util.Random;
 
@@ -33,7 +31,7 @@ public class EnemyCell extends Cell implements Dice{
      */
     @Override
     public void getDescription() {
-        System.out.println(enemy.getDescription());
+        Menu.showMessage(enemy.getDescription() + " It has " + enemy.getHealth() + " health");
     }
 
     /**
@@ -44,7 +42,6 @@ public class EnemyCell extends Cell implements Dice{
      */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
-
         if(enemy instanceof Orc && character instanceof Warrior){
             engageFight(character, playerPosition, board);
         }else if(enemy instanceof EvilSpirit && character instanceof Wizard){
@@ -64,8 +61,19 @@ public class EnemyCell extends Cell implements Dice{
      */
     public void engageFight(Character character, int playerPosition, Board board){
         boolean isRunning = false;
+        Menu menu = new Menu();
+        if (character instanceof  Warrior){
+            character.getWeaponsInInventory();
+        } else if (character instanceof Wizard) {
+            character.getSpellsInInventory();
+        }
+        int choice = menu.chooseUseEquipmentDuringFight();
+        int chosenItem = 0;
+        if (choice == 1){
+            chosenItem = menu.itemToUse();
+        }
         while ((character.getHealth() > 0 || enemy.getHealth() > 0) && !isRunning) {
-            characterIsAttacking(character);
+            characterIsAttacking(character, chosenItem);
             if (enemy.getHealth() <= 0) {
                 Menu.showMessage("You have defeated the enemy! Yay you!");
                 board.replaceCell(playerPosition);
@@ -81,20 +89,19 @@ public class EnemyCell extends Cell implements Dice{
      * Checks if the hit lands and modifies the enemy's health, as well as damage according to conditions
      * @param character the character being played and its stats
      */
-    private void characterIsAttacking(Character character) {
+    private void characterIsAttacking(Character character, int chosenItem) {
         int damage = character.getAttack();
         int diceValue = rollD20();
+        if(chosenItem >= 0){
+            if(character instanceof Warrior){
+                Loot weaponChosen = character.getItemInInventory(chosenItem);
+                damage = character.useItemDuringFight(weaponChosen, enemy, damage);
+            }else if(character instanceof Wizard){
+                Loot spellChosen = character.getItemInInventory(chosenItem);
+                damage = character.useItemDuringFight(spellChosen, enemy, damage);
+            }
+        }
         if (isBeatingArmorClass(character, "character", diceValue)) {
-            //all this needs to change
-//            if(character.getInventory() instanceof Bow && enemy instanceof Dragon){
-//                damage += 6;
-//            } else if (character.getInventory() instanceof Bow) {
-//                damage += 4;
-//            } else if (character.getInventory() instanceof Invisibility && enemy instanceof EvilSpirit) {
-//                damage += 8;
-//            } else if (character.getInventory() instanceof Invisibility) {
-//                damage += 5;
-//            }
             damage = isCritical(diceValue, damage);
             Menu.showMessage("You dealt " + damage + " damage");
             int newEnemyHealth = enemy.getHealth() - damage;
@@ -102,8 +109,8 @@ public class EnemyCell extends Cell implements Dice{
         }
         else {
             Menu.showMessage("You missed");
+            }
         }
-    }
 
     /**
      * Checks if the hit lands modifies the character's health and enemy's damage according to conditions, checks if character is dead, else option to run or keep fighting

@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class Menu {
 
-    private Scanner myScanner = new Scanner(System.in);
+    private transient Scanner myScanner = new Scanner(System.in);
     private Character chosenCharacter = null;
     private MySQLHero databaseHero = new MySQLHero(this);
 
@@ -209,6 +209,18 @@ public class Menu {
          System.out.println("Which item do you want to replace? (enter the number)");
          return myScanner.nextInt();
      }
+
+    public int itemToUse(){
+        System.out.println("Which item do you want to use? (enter the number)");
+        return myScanner.nextInt();
+    }
+
+    public int chooseUseEquipmentDuringFight(){
+        System.out.println("Do you wish to use an equipment during the fight?");
+        System.out.println("1 - Yes");
+        System.out.println("2 - No");
+        return myScanner.nextInt();
+    }
 }
 
 
