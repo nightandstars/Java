@@ -33,10 +33,6 @@ public class MySQLBoard {
         }
     }
 
-    public Gson getGsonBuilder() {
-        return this.gsonBuilder;
-    }
-
     /**
      * Inputs a new board into the DB with content saved as a json, representing each cell
      * @param jsonCells list of cells on the board

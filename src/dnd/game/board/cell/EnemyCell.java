@@ -68,7 +68,7 @@ public class EnemyCell extends Cell implements Dice{
             character.getSpellsInInventory();
         }
         int choice = menu.chooseUseEquipmentDuringFight();
-        int chosenItem = 0;
+        int chosenItem = -1;
         if (choice == 1){
             chosenItem = menu.itemToUse();
         }
@@ -136,7 +136,7 @@ public class EnemyCell extends Cell implements Dice{
                 Menu.showMessage("Oh no! You died :(");
                 MySQLBoard database = board.getDatabaseBoard();
                 database.updateBoard(board.getBoardId(), board.getBoard());
-                databaseHero.updateHero(character, character.getInventory());
+                databaseHero.deleteHero(character);
                 menu.endOfGameChoice();
             }
         } else {

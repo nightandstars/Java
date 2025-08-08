@@ -174,4 +174,16 @@ public class MySQLHero {
         }
    }
 
+   public void deleteHero(Character character){
+       try{
+           String sql = "DELETE FROM Characters WHERE id = ?";
+           PreparedStatement fill = connection.prepareStatement(sql);
+           fill.setInt(1, character.getId());
+           fill.executeUpdate();
+           fill.close();
+       }catch(SQLException e){
+           e.printStackTrace();
+       }
+   }
+
 }
