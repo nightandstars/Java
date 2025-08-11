@@ -20,7 +20,7 @@ import java.util.Random;
  */
 public class EnemyCell extends Cell implements Dice{
     private Enemy enemy;
-    private String type = "enemy";
+    private final String type = "enemy";
 
     public EnemyCell (Enemy enemy){
         this.enemy = enemy;
@@ -54,7 +54,7 @@ public class EnemyCell extends Cell implements Dice{
     }
 
     /**
-     * Starts the fight, player attacks first
+     * Starts the fight, checks if player has equipment and wishes to use it, engages the fight, if enemy dies, get the gold corresponding to its armor class and makes the cell empty
      * @param character being played
      * @param playerPosition cell on which the character is
      * @param board that is being played on
@@ -76,6 +76,7 @@ public class EnemyCell extends Cell implements Dice{
             characterIsAttacking(character, chosenItem);
             if (enemy.getHealth() <= 0) {
                 Menu.showMessage("You have defeated the enemy! Yay you!");
+                character.getInventory().addCoins(getCoinsFromDeadEnemy());
                 board.replaceCell(playerPosition);
                 break;
             }
@@ -218,6 +219,24 @@ public class EnemyCell extends Cell implements Dice{
             damage *= 2;
         }
         return damage;
+    }
+
+    /**
+     * Attributes coins depending on the armor class of the enemy that was defeated
+     * @return coins to add to the inventory
+     */
+    private int getCoinsFromDeadEnemy(){
+        int gold = 0;
+        int AC = enemy.getArmorClass();
+        if(AC <= 10){
+            gold = 1;
+        } else if (AC < 15) {
+            gold = 2;
+        }else {
+            gold = 3;
+        }
+        Menu.showMessage("You earned " + gold + " gold");
+        return gold;
     }
 
 }

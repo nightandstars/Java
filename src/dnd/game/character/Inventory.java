@@ -9,8 +9,9 @@ import dnd.game.loot.potion.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventory {
+public class Inventory implements Coins {
     private List<Loot> items;
+    private int coins;
 
     public Inventory(){
         this.items = new ArrayList<>();
@@ -84,6 +85,20 @@ public class Inventory {
 
     public void addInventory(Loot loot) {
         items.add(loot);
+    }
+
+    @Override
+    public void addCoins(int value) {
+        this.coins = value;
+    }
+
+    @Override
+    public void spendCoins(int value) {
+        coins -= value;
+    }
+
+    public int getCoins() {
+        return coins;
     }
 
 }
