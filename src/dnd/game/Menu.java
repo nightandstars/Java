@@ -24,15 +24,14 @@ public class Menu {
         System.out.println("1 - Create a New Character");
         System.out.println("2 - Load a previous Character");
         System.out.println("3 - Exit Game");
-        int choice = myScanner.nextInt();
-
+        int choice = checkIntegerInput();
         switch (choice) {
             case 1:
                 chosenCharacterClass();
                 break;
             case 2:
                 System.out.println("What is the id of the Character you wish to load?");
-                int characterId = myScanner.nextInt();
+                int characterId = checkIntegerInput();
                 databaseHero.loadCharacter(characterId);
                 characterInfo();
                 break;
@@ -50,8 +49,7 @@ public class Menu {
         System.out.println("1 - Wizard");
         System.out.println("2 - Warrior");
         System.out.println("3 - Exit");
-        int characterType = myScanner.nextInt();
-        myScanner.nextLine();
+        int characterType = checkIntegerInput();
         String characterName = chosenCharacterName();
         switch (characterType) {
             case 1:
@@ -79,8 +77,7 @@ public class Menu {
         System.out.println("3 - Start the game");
         System.out.println("4 - Change Class");
         System.out.println("5 - Exit");
-        int choice = myScanner.nextInt();
-        myScanner.nextLine();
+        int choice = checkIntegerInput();
         switch (choice) {
             case 1:
                 System.out.println(chosenCharacter.toString());
@@ -131,8 +128,7 @@ public class Menu {
         System.out.println("2 - Load an existing one");
         System.out.println("3 - Go back");
         System.out.println("4 - Exit");
-        int choice = myScanner.nextInt();
-        myScanner.nextLine();
+        int choice = checkIntegerInput();
         switch (choice) {
             case 1:
                 game.getScanner(myScanner);
@@ -141,8 +137,7 @@ public class Menu {
                 break;
             case 2:
                 System.out.println("What is the id of the board you wish to load?");
-                int boardId = myScanner.nextInt();
-                myScanner.nextLine();
+                int boardId = checkIntegerInput();
                 game.getScanner(myScanner);
                 game.getDatabaseHero(databaseHero);
                 game.loadPreviousGame(boardId, this.chosenCharacter);
@@ -161,8 +156,7 @@ public class Menu {
      public void endOfGameChoice(){
          System.out.println("1 - Start a new game");
          System.out.println("2 - Exit");
-         int choice = myScanner.nextInt();
-         myScanner.nextLine();
+         int choice = checkIntegerInput();
          switch (choice) {
              case 1:
                  this.startingMenu();
@@ -181,9 +175,7 @@ public class Menu {
          System.out.println("Do you want to keep fighting or do you want to run?");
          System.out.println("1 - Keep fighting");
          System.out.println("2 - Run");
-         int choice = myScanner.nextInt();
-         myScanner.nextLine();
-         return choice;
+         return checkIntegerInput();
      }
 
      public static void showMessage(String message){
@@ -202,25 +194,40 @@ public class Menu {
          System.out.println("You can't pick up anymore of this kind of item, choose an option:");
          System.out.println("1 - Replace another item");
          System.out.println("2 - Leave it");
-         return myScanner.nextInt();
+         return checkIntegerInput();
      }
 
      public int itemToReplace(){
          System.out.println("Which item do you want to replace? (enter the number)");
-         return myScanner.nextInt();
+         return checkIntegerInput();
      }
 
     public int itemToUse(){
         System.out.println("Which item do you want to use? (enter the number)");
-        return myScanner.nextInt();
+        return checkIntegerInput();
     }
 
     public int chooseUseEquipmentDuringFight(){
         System.out.println("Do you wish to use an equipment during the fight?");
         System.out.println("1 - Yes");
         System.out.println("2 - No");
-        return myScanner.nextInt();
+        return checkIntegerInput();
     }
+
+    public int checkIntegerInput(){
+         while(true){
+            if (myScanner.hasNextInt()){
+                int integer = myScanner.nextInt();
+                myScanner.nextLine();
+                return integer;
+            }else{
+                showMessage("Please enter a valid number");
+                myScanner.next();
+            }
+         }
+    }
+
+
 }
 
 
