@@ -54,9 +54,9 @@ public class Board implements Dice {
      */
     private List<Cell> createBoard() {
         Random randomType = new Random();
-        final int MAX_ENEMIES = 24;
-        final int MAX_LOOT = 24;
-        final int MAX_CELLS = 65;
+        final int MAX_ENEMIES = 38;
+        final int MAX_LOOT = 38;
+        final int MAX_CELLS = 101; //always +1 than board size desired
         int enemiesAdded = 0;
         int lootAdded = 0;
         for (int i = 1; i < MAX_CELLS; i++) {
