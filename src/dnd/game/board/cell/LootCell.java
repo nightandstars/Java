@@ -41,16 +41,16 @@ public class LootCell extends Cell {
         boolean isPickedUp = false;
         if (character instanceof Warrior) {
             if (loot instanceof Weapon) {
-                if (character.countWeaponsInInventory() < 2) {
-                    character.addInventory(loot);
+                if (character.getInventory().countWeaponsInInventory() < 2) {
+                    character.getInventory().addInventory(loot);
                     Menu.showMessage("The weapon has been added to your inventory");
                     isPickedUp = true;
                 } else {
-                    character.getWeaponsInInventory();
+                    character.getInventory().getWeaponsInInventory();
                     int choice = menu.choosePickupOrDrop();
                     if (choice == 1) {
                         int index = menu.itemToReplace();
-                        character.replaceItemInInventory(index, loot);
+                        character.getInventory().replaceItemInInventory(index, loot);
                         isPickedUp = true;
                     }
                 }if(isPickedUp){
@@ -69,16 +69,16 @@ public class LootCell extends Cell {
 
         else if (character instanceof Wizard) {
             if (loot instanceof Spell) {
-                if (character.countSpellsInInventory() < 2) {
-                    character.addInventory(loot);
+                if (character.getInventory().countSpellsInInventory() < 2) {
+                    character.getInventory().addInventory(loot);
                     Menu.showMessage("The spell has been added to your inventory");
                     isPickedUp = true;
                 } else {
-                    character.getSpellsInInventory();
+                    character.getInventory().getSpellsInInventory();
                     int choice = menu.choosePickupOrDrop();
                     if (choice == 1) {
                         int index = menu.itemToReplace();
-                        character.replaceItemInInventory(index, loot);
+                        character.getInventory().replaceItemInInventory(index, loot);
                         isPickedUp = true;
                     }
                 }if(isPickedUp){

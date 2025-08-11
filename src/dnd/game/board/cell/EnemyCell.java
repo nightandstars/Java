@@ -63,9 +63,9 @@ public class EnemyCell extends Cell implements Dice{
         boolean isRunning = false;
         Menu menu = new Menu();
         if (character instanceof  Warrior){
-            character.getWeaponsInInventory();
+            character.getInventory().getWeaponsInInventory();
         } else if (character instanceof Wizard) {
-            character.getSpellsInInventory();
+            character.getInventory().getSpellsInInventory();
         }
         int choice = menu.chooseUseEquipmentDuringFight();
         int chosenItem = -1;
@@ -94,10 +94,10 @@ public class EnemyCell extends Cell implements Dice{
         int diceValue = rollD20();
         if(chosenItem >= 0){
             if(character instanceof Warrior){
-                Loot weaponChosen = character.getItemInInventory(chosenItem);
+                Loot weaponChosen = character.getInventory().getItemInInventory(chosenItem);
                 damage = character.useItemDuringFight(weaponChosen, enemy, damage);
             }else if(character instanceof Wizard){
-                Loot spellChosen = character.getItemInInventory(chosenItem);
+                Loot spellChosen = character.getInventory().getItemInInventory(chosenItem);
                 damage = character.useItemDuringFight(spellChosen, enemy, damage);
             }
         }

@@ -20,6 +20,7 @@ public class Warrior extends Character{
         setType("Warrior");
         setMaxAttack(10);
         setArmorClass(12);
+        setInventory(new Inventory());
     }
 
     /**

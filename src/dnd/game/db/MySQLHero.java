@@ -1,17 +1,13 @@
 package dnd.game.db;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import dnd.game.Menu;
 import dnd.game.character.Character;
+import dnd.game.character.Inventory;
 import dnd.game.character.Warrior;
 import dnd.game.character.Wizard;
-import dnd.game.loot.Loot;
 
-import java.lang.reflect.Type;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents and allows interaction with a Characters table in MySQL DB
@@ -79,13 +75,15 @@ public class MySQLHero {
      */
    public void createHero(Character character, String name){
         try{
-            String sql = "INSERT INTO Characters (name, type, health, attack, armor_class) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Characters (name, type, health, attack, armor_class, inventory) VALUES (?, ?, ?, ?, ?, ?)";
+            String json = gson.toJson(new Inventory());
             PreparedStatement fill = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             fill.setString(1, name);
             fill.setString(2, character.getType());
             fill.setInt(3, character.getHealth());
             fill.setInt(4, character.getAttack());
-            fill.setInt(4, character.getArmorClass());
+            fill.setInt(5, character.getArmorClass());
+            fill.setString(6, json);
             fill.executeUpdate();
 
             ResultSet result = fill.getGeneratedKeys();
@@ -121,10 +119,10 @@ public class MySQLHero {
      * At the end of a game, saves the character's current status to the DB
      * @param character being played
      */
-   public void updateHero(Character character, List<Loot> inventory){
+   public void updateHero(Character character){
        try{
            String sql = "UPDATE Characters SET attack = ?, health = ?, inventory = ? WHERE id = ?";
-           String json = gson.toJson(inventory);
+           String json = gson.toJson(character.getInventory());
            PreparedStatement fill = connection.prepareStatement(sql);
            fill.setInt(1, character.getAttack());
            fill.setInt(2, character.getHealth());
@@ -159,10 +157,9 @@ public class MySQLHero {
                     default -> null;
                 };
                 if(character != null){
-                    Type lootListType = new TypeToken<List<Loot>>(){}.getType();
-                    List<Loot> inventory = (json.equals("null") || json.isBlank() || json == null )
-                            ? new ArrayList<>(4)
-                            : gson.fromJson(json, lootListType);
+                    Inventory inventory = (json == null || json.isBlank() ||  json.equals("null"))
+                            ? new Inventory()
+                            : gson.fromJson(json, Inventory.class);
                     character.setInventory(inventory);
                     menu.setChosenCharacter(character);
                 }

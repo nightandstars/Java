@@ -56,11 +56,11 @@ public class Menu {
         switch (characterType) {
             case 1:
                 this.chosenCharacter = new Wizard(characterName);
-                //database.createHero(this.chosenCharacter, characterName);
+                databaseHero.createHero(this.chosenCharacter, characterName);
                 break;
             case 2:
                 this.chosenCharacter = new Warrior(characterName);
-                //database.createHero(this.chosenCharacter, characterName);
+                databaseHero.createHero(this.chosenCharacter, characterName);
                 break;
             case 3:
                 this.quitGame();

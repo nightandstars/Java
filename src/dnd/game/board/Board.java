@@ -129,7 +129,7 @@ public class Board implements Dice {
                 playerPosition = board.size();
                 Menu.showMessage("You have won the game!");
                 databaseBoard.deleteBoard(boardId);
-                databaseHero.updateHero(chosenCharacter, chosenCharacter.getInventory());
+                databaseHero.updateHero(chosenCharacter);
                 endMenu.endOfGameChoice();
             }
             else {

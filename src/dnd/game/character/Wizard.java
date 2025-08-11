@@ -20,6 +20,7 @@ public class Wizard extends Character{
         setType("Wizard");
         setMaxAttack(15);
         setArmorClass(10);
+        setInventory(new Inventory());
     }
 
     /**

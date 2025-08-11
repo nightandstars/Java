@@ -10,9 +10,6 @@ import dnd.game.loot.spell.Spell;
 import dnd.game.loot.weapon.Bow;
 import dnd.game.loot.weapon.Weapon;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Represents the character that is being played and its stats
  */
@@ -20,7 +17,7 @@ public abstract class Character {
     private String name;
     private int health;
     private int attack;
-    private List<Loot> inventory = new ArrayList<>(4) ;
+    private Inventory inventory;
     private String type;
     private int maxHealth;
     private int id;
@@ -30,6 +27,10 @@ public abstract class Character {
 
     public int getHealth(){
         return health;
+    }
+
+    public Inventory getInventory(){
+        return inventory;
     }
 
     public int getArmorClass(){
@@ -61,26 +62,8 @@ public abstract class Character {
         return attack;
     }
 
-    public void showInventory() {
-        for(Loot loot : inventory){
-            Menu.showMessage("You have in your inventory: ");
-            Menu.showMessage(loot.getInventoryDescription());
-        }
-    }
 
-    public List<Loot> getInventory(){
-        return inventory;
-    }
-
-    public void replaceItemInInventory(int index, Loot loot){
-        inventory.set(index, loot);
-    }
-
-    public Loot getItemInInventory(int index){
-        return inventory.get(index);
-    }
-
-    public void setInventory(List<Loot> inventory) {
+    public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
 
@@ -103,15 +86,15 @@ public abstract class Character {
                 Menu.showMessage("You now have " + health + " health");
             }
             isPickedUp = true;
-        } else if(countPotionsInInventory() < 2) {
-            addInventory(loot);
+        } else if(inventory.countPotionsInInventory() < 2) {
+            inventory.addToInventory(loot);
             Menu.showMessage("The potion has been added to your inventory");
         }else {
-                getPotionsInInventory();
+                inventory.getPotionsInInventory();
                 int choice = menu.choosePickupOrDrop();
                 if(choice ==1){
                     int index = menu.itemToReplace();
-                    inventory.set(index ,loot);
+                    inventory.replaceItemInInventory(index, loot);
                     isPickedUp = true;
                 }
             }
@@ -159,10 +142,6 @@ public abstract class Character {
         this.health = health;
     }
 
-    public void addInventory(Loot loot) {
-        inventory.add(loot);
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -186,45 +165,5 @@ public abstract class Character {
     public String toString(){
         return name + " is a " + type + " with " + health + " health and " + attack + " attack";
     }
-
-    private int countPotionsInInventory(){
-        return (int) inventory.stream().filter(loot -> loot instanceof Potion).count();
-    }
-
-    public void getPotionsInInventory(){
-        Menu.showMessage("Here are the potions in your inventory:");
-        for(Loot loot : inventory){
-            if(loot instanceof Potion){
-                Menu.showMessage("[" + inventory.indexOf(loot) + "] " + loot.getInventoryDescription());
-            }
-        }
-    }
-
-    public int countWeaponsInInventory(){
-        return (int) inventory.stream().filter(loot -> loot instanceof Weapon).count();
-    }
-
-    public int countSpellsInInventory(){
-        return (int) inventory.stream().filter(loot -> loot instanceof Spell).count();
-    }
-
-    public void getWeaponsInInventory(){
-        Menu.showMessage("Here are the weapons in your inventory:");
-        for(Loot loot : inventory){
-            if(loot instanceof Weapon){
-                Menu.showMessage("[" + inventory.indexOf(loot) + "] " + loot.getInventoryDescription());
-            }
-        }
-    }
-
-    public void getSpellsInInventory(){
-        Menu.showMessage("Here are the spells in your inventory:");
-        for(Loot loot : inventory){
-            if(loot instanceof Spell){
-                Menu.showMessage("[" + inventory.indexOf(loot) + "] " + loot.getInventoryDescription());
-            }
-        }
-    }
-
 
 }
