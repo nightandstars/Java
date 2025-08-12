@@ -29,19 +29,11 @@ public class Inventory implements Coins {
         return items.get(index);
     }
 
-    public void setInventory(List<Loot> inventory) {
-        this.items = inventory;
-    }
-
-    public void showInventory() {
+    public void showPlayerInventory() {
         for(Loot loot : items){
             Menu.showMessage("You have in your inventory: ");
             Menu.showMessage(loot.getInventoryDescription());
         }
-    }
-
-    public void addToInventory(Loot loot) {
-        items.add(loot);
     }
 
     public int countPotionsInInventory(){

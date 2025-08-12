@@ -2,6 +2,9 @@ package dnd.game.loot.spell;
 
 import dnd.game.loot.Loot;
 
+import static java.lang.Math.floor;
+import static java.lang.Math.round;
+
 public class Spell extends Loot {
     private String name;
     private int attackEffect;
@@ -9,6 +12,8 @@ public class Spell extends Loot {
     private String inventoryDescription;
     private int specialAttackEffect;
     private String type;
+    private double buyingPrice;
+    private double sellingPrice;
 
     public Spell(String name, int attackEffect, String description, String inventoryDescription, int specialAttackEffect, String type){
         this.name = name;
@@ -17,6 +22,7 @@ public class Spell extends Loot {
         this.inventoryDescription = inventoryDescription;
         this.specialAttackEffect = specialAttackEffect;
         this.type = type;
+        determineBuySellPrice();
     }
 
     @Override
@@ -45,19 +51,29 @@ public class Spell extends Loot {
         this.name = name;
     }
 
-    public void setAttackEffect(int attackEffect) {
-        this.attackEffect = attackEffect;
+    public void determineBuySellPrice(){
+        final int BASE_PER_POINT = 3;
+        final double MULTIPLIER = 1.6;
+        final double SELL_RATIO = 0.5;
+
+        int attack = getAttackEffect();
+        int specialAttack = getSpecialAttackEffect();
+
+        double baseValue = attack * BASE_PER_POINT;
+
+        if(specialAttack > 0){
+            baseValue *= MULTIPLIER;
+        }
+        buyingPrice = round(baseValue);
+        sellingPrice = floor(buyingPrice * SELL_RATIO);
     }
 
-    public void setSpecialAttackEffect(int specialAttackEffect) {
-        this.specialAttackEffect = specialAttackEffect;
+    public double getBuyingPrice() {
+        return buyingPrice;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public double getSellingPrice() {
+        return sellingPrice;
     }
 
-    public void setInventoryDescription(String inventoryDescription) {
-        this.inventoryDescription = inventoryDescription;
-    }
 }

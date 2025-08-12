@@ -87,7 +87,7 @@ public abstract class Character {
             }
             isPickedUp = true;
         } else if(inventory.countPotionsInInventory() < 2) {
-            inventory.addToInventory(loot);
+            inventory.addInventory(loot);
             Menu.showMessage("The potion has been added to your inventory");
         }else {
                 inventory.getPotionsInInventory();

@@ -224,6 +224,7 @@ public class Menu {
                 showMessage("Please enter a valid number");
                 myScanner.next();
             }
+             myScanner.close();
          }
     }
 

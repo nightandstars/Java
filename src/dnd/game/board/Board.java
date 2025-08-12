@@ -7,9 +7,14 @@ import dnd.game.db.MySQLBoard;
 import dnd.game.db.MySQLHero;
 import dnd.game.dice.Dice;
 import dnd.game.enemy.*;
+import dnd.game.loot.Loot;
 import dnd.game.loot.potion.*;
 import dnd.game.loot.spell.*;
 import dnd.game.loot.weapon.*;
+import dnd.game.npc.Arcanist;
+import dnd.game.npc.Blacksmith;
+import dnd.game.npc.Merchant;
+import dnd.game.npc.Npc;
 
 import java.util.*;
 
@@ -56,9 +61,11 @@ public class Board implements Dice {
         Random randomType = new Random();
         final int MAX_ENEMIES = 38;
         final int MAX_LOOT = 38;
+        final int MAX_NPC = 6;
         final int MAX_CELLS = 101; //always +1 than board size desired
         int enemiesAdded = 0;
         int lootAdded = 0;
+        int npcAdded = 0;
         for (int i = 1; i < MAX_CELLS; i++) {
             int enemyType = randomType.nextInt(5);
             int lootType = randomType.nextInt(8);
@@ -109,13 +116,25 @@ public class Board implements Dice {
                          break;
                  }
                  lootAdded++;
-             }else {
+             }else if (npcAdded < MAX_NPC){
+                npcAdded += addNpcs(new Merchant());
+                npcAdded += addNpcs(new Blacksmith());
+                npcAdded += addNpcs(new Arcanist());
+                i += (npcAdded -1);
+            }else{
                 board.add(new EmptyCell());
             }
-        }
+            }
             Collections.shuffle(board);
             return board;
         }
+
+    public int addNpcs( Npc npc){
+        for(int i = 0; i < 2; i++){
+            board.add(new NpcCell(npc));
+        }
+        return 2;
+    }
 
     /**
      * Moves the player on the board according to the result of a random D6, if player position >= 64, game is won, otherwise player keeps moving, triggers an interaction on each cell that the player lands on
