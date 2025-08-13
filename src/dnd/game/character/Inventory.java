@@ -29,6 +29,10 @@ public class Inventory implements Coins {
         return items.get(index);
     }
 
+    public void removeItemInInventory(int index){
+        items.remove(index);
+    }
+
     public void showPlayerInventory() {
         for(Loot loot : items){
             Menu.showMessage("You have in your inventory: ");
@@ -85,12 +89,28 @@ public class Inventory implements Coins {
     }
 
     @Override
-    public void spendCoins(int value) {
-        coins -= value;
+    public boolean spendCoins(int value) {
+        boolean purchaseSuccessful = false;
+        if(coins < value){
+            Menu.showMessage("Looks like you don't have enough gold...");
+            Menu.showMessage("You are missing " + (value - coins) + " gold");
+        }else{
+            coins -= value;
+            Menu.showMessage("You now have " + coins + " gold");
+            purchaseSuccessful = true;
+        }
+        return purchaseSuccessful;
     }
 
     public int getCoins() {
         return coins;
+    }
+
+    public void showNpcInventory() {
+        for(Loot loot : items){
+            Menu.showMessage("Here's what you can buy: ");
+            Menu.showMessage("Price: " + loot.getBuyingPrice() + " | " + loot.getInventoryDescription());
+        }
     }
 
 }

@@ -75,4 +75,10 @@ public class Npc {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+
 }

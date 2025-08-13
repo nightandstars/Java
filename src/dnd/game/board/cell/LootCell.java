@@ -49,7 +49,7 @@ public class LootCell extends Cell {
                     character.getInventory().getWeaponsInInventory();
                     int choice = menu.choosePickupOrDrop();
                     if (choice == 1) {
-                        int index = menu.itemToReplace();
+                        int index = menu.chooseItemToInteractWith("replace");
                         character.getInventory().replaceItemInInventory(index, loot);
                         isPickedUp = true;
                     }
@@ -77,7 +77,7 @@ public class LootCell extends Cell {
                     character.getInventory().getSpellsInInventory();
                     int choice = menu.choosePickupOrDrop();
                     if (choice == 1) {
-                        int index = menu.itemToReplace();
+                        int index = menu.chooseItemToInteractWith("replace");
                         character.getInventory().replaceItemInInventory(index, loot);
                         isPickedUp = true;
                     }

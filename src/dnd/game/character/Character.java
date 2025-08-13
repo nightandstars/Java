@@ -93,7 +93,7 @@ public abstract class Character {
                 inventory.getPotionsInInventory();
                 int choice = menu.choosePickupOrDrop();
                 if(choice ==1){
-                    int index = menu.itemToReplace();
+                    int index = menu.chooseItemToInteractWith("replace");
                     inventory.replaceItemInInventory(index, loot);
                     isPickedUp = true;
                 }

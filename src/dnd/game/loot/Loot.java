@@ -9,4 +9,8 @@ public abstract class Loot {
     public abstract String getDescription();
 
     public abstract String getInventoryDescription();
+
+    public abstract double getBuyingPrice();
+
+    public abstract double getSellingPrice();
 }

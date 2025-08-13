@@ -3,6 +3,7 @@ package dnd.game.board.cell;
 import dnd.game.Menu;
 import dnd.game.board.Board;
 import dnd.game.character.Character;
+import dnd.game.loot.Loot;
 import dnd.game.npc.Npc;
 
 public class NpcCell extends Cell{
@@ -19,21 +20,38 @@ public class NpcCell extends Cell{
         Menu.showMessage("What awaits you here?");
     }
 
+    /**
+     * Handles the buy/sell logic between npc and character
+     * @param character the character that is being played
+     * @param playerPosition the cell on which the character is
+     * @param board the board that is being played on
+     */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
-        String npcType = npc.getType();
-        switch (npcType){
-            case "Merchant":
+        Menu menu = new Menu();
+        menu.notImplemented();
+//        int choice = menu.buyOrSell();
+//        switch (choice){
+//            case 1:
+//                npc.getInventory().showNpcInventory();
+//                int index = menu.chooseItemToInteractWith("buy");
+//                double coinsSpent = npc.getInventory().getItemInInventory(index).getBuyingPrice();
+//                boolean purchaseSuccessful = character.getInventory().spendCoins((int)coinsSpent);
+//                if (purchaseSuccessful){
+//                    Loot loot = npc.getInventory().getItemInInventory(index);
+//                    npc.getInventory().removeItemInInventory(index);
+//                    npc.getInventory().addCoins((int)coinsSpent);
+//                    character.getInventory().addInventory(loot);
+//                };
+//                break;
+//            case 2:
+//                character.getInventory().showPlayerInventory();
+//                int indexSell = menu.chooseItemToInteractWith("sell");
+//                Loot loot = character.getInventory().getItemInInventory(indexSell);
+//                character.getInventory().removeItemInInventory(indexSell);
+//                npc.getInventory().addInventory(loot);
 
-                break;
-            case "Blacksmith":
 
-                break;
-
-            case "Arcanist":
-
-                break;
-        }
     }
 
     private void merchantInteract(){

@@ -70,7 +70,7 @@ public class EnemyCell extends Cell implements Dice{
         int choice = menu.chooseUseEquipmentDuringFight();
         int chosenItem = -1;
         if (choice == 1){
-            chosenItem = menu.itemToUse();
+            chosenItem = menu.chooseItemToInteractWith("use");
         }
         while ((character.getHealth() > 0 || enemy.getHealth() > 0) && !isRunning) {
             characterIsAttacking(character, chosenItem);

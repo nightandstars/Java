@@ -197,15 +197,10 @@ public class Menu {
          return checkIntegerInput();
      }
 
-     public int itemToReplace(){
-         System.out.println("Which item do you want to replace? (enter the number)");
+     public int chooseItemToInteractWith(String interaction){
+         System.out.println("Which item do you want to " + interaction + "? (enter the number)");
          return checkIntegerInput();
      }
-
-    public int itemToUse(){
-        System.out.println("Which item do you want to use? (enter the number)");
-        return checkIntegerInput();
-    }
 
     public int chooseUseEquipmentDuringFight(){
         System.out.println("Do you wish to use an equipment during the fight?");
@@ -226,6 +221,17 @@ public class Menu {
             }
              myScanner.close();
          }
+    }
+
+    public int buyOrSell(){
+        System.out.println("Are you here to buy or sell?");
+        System.out.println("1 - Buy");
+        System.out.println("2 - Sell");
+         return checkIntegerInput();
+    }
+
+    public void notImplemented(){
+        System.out.println("The shop is restocking, come back later");
     }
 
 
