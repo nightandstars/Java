@@ -17,7 +17,7 @@ public class MySQLHero {
     private Statement query = null;
     private ResultSet result = null;
     private Connection connection;
-    private Menu menu = null;
+    private Menu menu;
     private Gson gson = GsonFactory.getGson();
 
     /**
@@ -46,20 +46,17 @@ public class MySQLHero {
                 String type = result.getString("type");
                 int health = result.getInt("health");
                 int attack = result.getInt("attack");
-                int offensiveLootId = result.getInt("offensive_loot_id");
-                int defensiveLootId = result.getInt("defensive_loot_id");
+                int armorClass = result.getInt("armor_class");
 
                 Menu.showMessage("ID: " + id
                         + ", Name: " + name
                         + ", Type: " + type
                         + ", Health: " + health
                         + ", Attack: " + attack
-                        + ", Offensive Loot ID: " + offensiveLootId
-                        + ", Defensive Loot ID: " + defensiveLootId);
+                        + ", Armor Class: " + armorClass);
             }
             result.close();
             query.close();
-            connection.close();
 
         }catch (SQLException ex){
             System.out.println("SQLException: " + ex.getMessage());

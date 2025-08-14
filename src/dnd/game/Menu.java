@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Menu {
 
     private transient Scanner myScanner = new Scanner(System.in);
-    private Character chosenCharacter = null;
+    private Character chosenCharacter;
     private MySQLHero databaseHero = new MySQLHero(this);
 
     /**
@@ -22,15 +22,16 @@ public class Menu {
     public void startingMenu() {
         System.out.println("Welcome to DND, pick an option below:");
         System.out.println("1 - Create a New Character");
-        System.out.println("2 - Load a previous Character");
+        System.out.println("2 - Load a Character");
         System.out.println("3 - Exit Game");
-        int choice = checkIntegerInput();
+        int choice = validateChoice(3);
         switch (choice) {
             case 1:
                 chosenCharacterClass();
                 break;
             case 2:
-                System.out.println("What is the id of the Character you wish to load?");
+                databaseHero.getCharacters();
+                System.out.println("What is the number of the Character you wish to load?");
                 int characterId = checkIntegerInput();
                 databaseHero.loadCharacter(characterId);
                 characterInfo();
@@ -49,7 +50,7 @@ public class Menu {
         System.out.println("1 - Wizard");
         System.out.println("2 - Warrior");
         System.out.println("3 - Exit");
-        int characterType = checkIntegerInput();
+        int characterType = validateChoice(3);
         String characterName = chosenCharacterName();
         switch (characterType) {
             case 1:
@@ -77,7 +78,7 @@ public class Menu {
         System.out.println("3 - Start the game");
         System.out.println("4 - Change Class");
         System.out.println("5 - Exit");
-        int choice = checkIntegerInput();
+        int choice = validateChoice(5);
         switch (choice) {
             case 1:
                 System.out.println(chosenCharacter.toString());
@@ -123,12 +124,12 @@ public class Menu {
      */
     private void startGame() {
         Game game = new Game();
-        System.out.println("Do you want to start a new game or load an existing one?");
-        System.out.println("1 - Start a new game");
-        System.out.println("2 - Load an existing one");
+        System.out.println("Do you want to play on a new board or load one?");
+        System.out.println("1 - New board");
+        System.out.println("2 - Load a board");
         System.out.println("3 - Go back");
         System.out.println("4 - Exit");
-        int choice = checkIntegerInput();
+        int choice = validateChoice(4);
         switch (choice) {
             case 1:
                 game.getScanner(myScanner);
@@ -156,7 +157,7 @@ public class Menu {
      public void endOfGameChoice(){
          System.out.println("1 - Start a new game");
          System.out.println("2 - Exit");
-         int choice = checkIntegerInput();
+         int choice = validateChoice(2);
          switch (choice) {
              case 1:
                  this.startingMenu();
@@ -175,7 +176,7 @@ public class Menu {
          System.out.println("Do you want to keep fighting or do you want to run?");
          System.out.println("1 - Keep fighting");
          System.out.println("2 - Run");
-         return checkIntegerInput();
+         return validateChoice(2);
      }
 
      public static void showMessage(String message){
@@ -194,7 +195,7 @@ public class Menu {
          System.out.println("You can't pick up anymore of this kind of item, choose an option:");
          System.out.println("1 - Replace another item");
          System.out.println("2 - Leave it");
-         return checkIntegerInput();
+         return validateChoice(2);
      }
 
      public int chooseItemToInteractWith(String interaction){
@@ -206,10 +207,10 @@ public class Menu {
         System.out.println("Do you wish to use an equipment during the fight?");
         System.out.println("1 - Yes");
         System.out.println("2 - No");
-        return checkIntegerInput();
+        return validateChoice(2);
     }
 
-    public int checkIntegerInput(){
+    private int checkIntegerInput(){
          while(true){
             if (myScanner.hasNextInt()){
                 int integer = myScanner.nextInt();
@@ -219,7 +220,6 @@ public class Menu {
                 showMessage("Please enter a valid number");
                 myScanner.next();
             }
-             myScanner.close();
          }
     }
 
@@ -227,13 +227,28 @@ public class Menu {
         System.out.println("Are you here to buy or sell?");
         System.out.println("1 - Buy");
         System.out.println("2 - Sell");
-         return checkIntegerInput();
+         return validateChoice(2);
     }
 
     public void notImplemented(){
         System.out.println("The shop is restocking, come back later");
     }
 
+    /**
+     * Checks that the option entered is valid (if 2 options player can't enter 4 or a String)
+     * @param maxOptions allowed to answer
+     * @return number chosen
+     */
+    private int validateChoice(int maxOptions){
+         int choice;
+         do{
+             choice = checkIntegerInput();
+             if(choice < 1 || choice > maxOptions){
+                 showMessage("Please enter a valid option");
+             }
+         }while (choice < 1 || choice > maxOptions);
+         return choice;
+    }
 
 }
 
