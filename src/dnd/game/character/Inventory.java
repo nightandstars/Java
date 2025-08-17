@@ -7,6 +7,8 @@ import dnd.game.loot.weapon.*;
 import dnd.game.loot.potion.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Inventory implements Coins {
@@ -19,6 +21,10 @@ public class Inventory implements Coins {
 
     public List<Loot> getInventory(){
         return items;
+    }
+
+    public int getLowestPrice(){
+        return (int) Collections.min(items, Comparator.comparingDouble(Loot::getBuyingPrice)).getBuyingPrice();
     }
 
     public void replaceItemInInventory(int index, Loot loot){
@@ -34,9 +40,9 @@ public class Inventory implements Coins {
     }
 
     public void showPlayerInventory() {
+        Menu.showMessage("You have in your inventory: ");
         for(Loot loot : items){
-            Menu.showMessage("You have in your inventory: ");
-            Menu.showMessage(loot.getInventoryDescription());
+            Menu.showMessage("["+ items.indexOf(loot) + "] " + loot.getInventoryDescription());
         }
     }
 
@@ -85,7 +91,7 @@ public class Inventory implements Coins {
 
     @Override
     public void addCoins(int value) {
-        this.coins = value;
+        this.coins += value;
     }
 
     @Override
@@ -96,21 +102,28 @@ public class Inventory implements Coins {
             Menu.showMessage("You are missing " + (value - coins) + " gold");
         }else{
             coins -= value;
-            Menu.showMessage("You now have " + coins + " gold");
             purchaseSuccessful = true;
         }
         return purchaseSuccessful;
     }
 
-    public int getCoins() {
-        return coins;
+    public void showCoins() {
+        Menu.showMessage("You have " + coins + " gold");
     }
 
     public void showNpcInventory() {
+        Menu.showMessage("Here are the items on sale: ");
         for(Loot loot : items){
-            Menu.showMessage("Here's what you can buy: ");
-            Menu.showMessage("Price: " + loot.getBuyingPrice() + " | " + loot.getInventoryDescription());
+            Menu.showMessage("[" + items.indexOf(loot) + "] Price: " + loot.getBuyingPrice() + " | " + loot.getInventoryDescription());
         }
+    }
+
+    public int getCoins(){
+        return coins;
+    }
+
+    public int inventorySize(){
+        return items.size();
     }
 
 }

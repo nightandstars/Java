@@ -77,6 +77,7 @@ public class EnemyCell extends Cell implements Dice{
             if (enemy.getHealth() <= 0) {
                 Menu.showMessage("You have defeated the enemy! Yay you!");
                 character.getInventory().addCoins(getCoinsFromDeadEnemy());
+                character.getInventory().showCoins();
                 board.replaceCell(playerPosition);
                 break;
             }

@@ -3,8 +3,17 @@ package dnd.game.board.cell;
 import dnd.game.Menu;
 import dnd.game.board.Board;
 import dnd.game.character.Character;
+import dnd.game.character.Inventory;
+import dnd.game.character.Warrior;
+import dnd.game.character.Wizard;
 import dnd.game.loot.Loot;
+import dnd.game.loot.spell.Spell;
+import dnd.game.loot.weapon.Weapon;
 import dnd.game.npc.Npc;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class NpcCell extends Cell{
 
@@ -17,7 +26,7 @@ public class NpcCell extends Cell{
 
     @Override
     public void getDescription() {
-        Menu.showMessage("What awaits you here?");
+        Menu.showMessage(npc.getDescription());
     }
 
     /**
@@ -29,50 +38,62 @@ public class NpcCell extends Cell{
     @Override
     public void interact(Character character, int playerPosition, Board board) {
         Menu menu = new Menu();
-        menu.notImplemented();
-//        int choice = menu.buyOrSell();
-//        switch (choice){
-//            case 1:
-//                npc.getInventory().showNpcInventory();
-//                int index = menu.chooseItemToInteractWith("buy");
-//                double coinsSpent = npc.getInventory().getItemInInventory(index).getBuyingPrice();
-//                boolean purchaseSuccessful = character.getInventory().spendCoins((int)coinsSpent);
-//                if (purchaseSuccessful){
-//                    Loot loot = npc.getInventory().getItemInInventory(index);
-//                    npc.getInventory().removeItemInInventory(index);
-//                    npc.getInventory().addCoins((int)coinsSpent);
-//                    character.getInventory().addInventory(loot);
-//                };
-//                break;
-//            case 2:
-//                character.getInventory().showPlayerInventory();
-//                int indexSell = menu.chooseItemToInteractWith("sell");
-//                Loot loot = character.getInventory().getItemInInventory(indexSell);
-//                character.getInventory().removeItemInInventory(indexSell);
-//                npc.getInventory().addInventory(loot);
+        Inventory characterInventory = character.getInventory();
+        Inventory npcInventory = npc.getInventory();
+        boolean playerExit = false;
 
-
-    }
-
-    private void merchantInteract(){
-        //menu to buy or sell
-        //switch on choice
-        //buy = list of all products in merchant's inventory -> name/effect/price/quantity
-        //ask which item wants to buy by name
-        //ask quantity
-        //deduce coins from character
-        //add coins to merchant
-        //message you bought ... you now have xxx coins
-        //menu anything else? -> buy again, sell, leave
-
-        //sell = list of all products in character's inventory with sell price
-        //ask item to sell by name
-        //confirm sell
-        //add it to merchant's inventory + remove coins
-        //remove from player's inventory + add coins
-        //message you sold... you now have xxx coins
-        //menu anything else?
-
+        while(!playerExit){
+            characterInventory.showCoins();
+            int choice = menu.buyOrSell();
+            switch (choice) {
+                case 1:
+                    npcInventory.showNpcInventory();
+                    int lowestPrice = npcInventory.getLowestPrice();
+                    if(characterInventory.getCoins() < lowestPrice){
+                        Menu.showMessage("Looks like you can't buy anything, come back later");
+                    }else{
+                        int index = menu.chooseItemToInteractWith("buy");
+                        double coinsSpent = npcInventory.getItemInInventory(index).getBuyingPrice();
+                        boolean purchaseSuccessful = characterInventory.spendCoins((int) coinsSpent);
+                        if (purchaseSuccessful) {
+                            Loot loot = npcInventory.getItemInInventory(index);
+                            if((character instanceof Warrior && loot instanceof Spell) || (character instanceof Wizard && loot instanceof Weapon)){
+                                Menu.showMessage("You cannot buy this category of item");
+                                characterInventory.addCoins((int)coinsSpent);
+                            }else{
+                                npcInventory.removeItemInInventory(index);
+                                npcInventory.addCoins((int) coinsSpent);
+                                characterInventory.addInventory(loot);
+                                Menu.showMessage("Your purchase was successful");
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    int inventorySize = characterInventory.inventorySize();
+                    if(inventorySize == 0){
+                        Menu.showMessage("You don't have anything to sell");
+                    }else{
+                        characterInventory.showPlayerInventory();
+                        int indexSell = menu.chooseItemToInteractWith("sell");
+                        if (indexSell == -1){
+                            break;
+                        }else{
+                            Loot loot = characterInventory.getItemInInventory(indexSell);
+                            npcInventory.addInventory(loot);
+                            double coinsSpentSell = characterInventory.getItemInInventory(indexSell).getSellingPrice();
+                            characterInventory.addCoins((int)coinsSpentSell);
+                            Menu.showMessage("You now have " + characterInventory.getCoins() + " gold");
+                            npcInventory.spendCoins((int) coinsSpentSell);
+                            characterInventory.removeItemInInventory(indexSell);
+                        }
+                    }
+                    break;
+                default:
+                    playerExit = true;
+                    break;
+            }
+        }
     }
 
 

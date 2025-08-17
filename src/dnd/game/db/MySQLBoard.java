@@ -41,7 +41,6 @@ public class MySQLBoard {
     public int createBoard(List<Cell> jsonCells) {
         int boardId = 0;
         try {
-            connection.setAutoCommit(false);
             String sql = "INSERT INTO Board (board_json) VALUES (?)";
             PreparedStatement fill = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             String boardJson = gsonBuilder.toJson(jsonCells);
@@ -53,7 +52,6 @@ public class MySQLBoard {
             }
             result.close();
             fill.close();
-            connection.commit();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,15 +73,14 @@ public class MySQLBoard {
             String sql = "SELECT board_json FROM Board WHERE id = ?";
             PreparedStatement fill = connection.prepareStatement(sql);
             fill.setInt(1, boardId);
-            ResultSet result = fill.executeQuery();
-            if (result.next()) {
-                String json = result.getString("board_json");
-                Type type = new TypeToken<ArrayList<Cell>>() {
-                }.getType();
-                return gsonBuilder.fromJson(json, type);
+            try(ResultSet result = fill.executeQuery()){
+                if (result.next()) {
+                    String json = result.getString("board_json");
+                    Type type = new TypeToken<ArrayList<Cell>>() {
+                    }.getType();
+                    return gsonBuilder.fromJson(json, type);
             }
-            result.close();
-            fill.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

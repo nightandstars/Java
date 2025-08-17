@@ -36,24 +36,30 @@ public class MySQLHero {
     /**
      * Shows all characters saved in the DB
      */
-    public void getCharacters(){
+    public boolean getCharacters(){
         try{
             query = connection.createStatement();
             result = query.executeQuery("SELECT* FROM Characters");
-            while (result.next()) {
-                int id = result.getInt("id");
-                String name = result.getString("name");
-                String type = result.getString("type");
-                int health = result.getInt("health");
-                int attack = result.getInt("attack");
-                int armorClass = result.getInt("armor_class");
+            if (!result.next()){
+                Menu.showMessage("❌ No previous characters found");
+                return true;
+            }else{
+                do {
+                    int id = result.getInt("id");
+                    String name = result.getString("name");
+                    String type = result.getString("type");
+                    int health = result.getInt("health");
+                    int attack = result.getInt("attack");
+                    int armorClass = result.getInt("armor_class");
 
-                Menu.showMessage("ID: " + id
-                        + ", Name: " + name
-                        + ", Type: " + type
-                        + ", Health: " + health
-                        + ", Attack: " + attack
-                        + ", Armor Class: " + armorClass);
+                    Menu.showMessage("ID: " + id
+                            + ", Name: " + name
+                            + ", Type: " + type
+                            + ", Health: " + health
+                            + ", Attack: " + attack
+                            + ", Armor Class: " + armorClass);
+                }
+                while (result.next());
             }
             result.close();
             query.close();
@@ -63,6 +69,7 @@ public class MySQLHero {
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
+        return false;
     }
 
     /**

@@ -30,11 +30,15 @@ public class Menu {
                 chosenCharacterClass();
                 break;
             case 2:
-                databaseHero.getCharacters();
-                System.out.println("What is the number of the Character you wish to load?");
-                int characterId = checkIntegerInput();
-                databaseHero.loadCharacter(characterId);
-                characterInfo();
+                boolean isEmpty = databaseHero.getCharacters();
+                if (isEmpty){
+                    startingMenu();
+                }else{
+                    System.out.println("What is the number of the Character you wish to load?");
+                    int characterId = checkIntegerInput();
+                    databaseHero.loadCharacter(characterId);
+                    characterInfo();
+                }
                 break;
             case 3:
                 this.quitGame();
@@ -200,6 +204,7 @@ public class Menu {
 
      public int chooseItemToInteractWith(String interaction){
          System.out.println("Which item do you want to " + interaction + "? (enter the number)");
+         System.out.println("Enter -1 to cancel");
          return checkIntegerInput();
      }
 
@@ -227,7 +232,8 @@ public class Menu {
         System.out.println("Are you here to buy or sell?");
         System.out.println("1 - Buy");
         System.out.println("2 - Sell");
-         return validateChoice(2);
+        System.out.println("3 - Leave");
+         return validateChoice(3);
     }
 
     public void notImplemented(){

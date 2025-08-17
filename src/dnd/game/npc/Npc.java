@@ -16,10 +16,16 @@ public class Npc {
     private String type;
     protected Inventory inventory;
 
+    /**
+     * Creates a new specific npc with an inventory and 100 gold to start with
+     * @param name of the npc
+     * @param type of the npc
+     */
     public Npc(String name, String type){
         this.name = name;
         this.type = type;
         this.inventory = new Inventory();
+        inventory.addCoins(100);
     }
 
     public void setName(String name) {
@@ -44,6 +50,9 @@ public class Npc {
         }
     }
 
+    /**
+     * Default merchant inventory items, changes in specific npcs (ex blacksmith = only weapons)
+     */
     public void fillInventoryRandom(){
         Random random = new Random();
         int maxSize = 10;
