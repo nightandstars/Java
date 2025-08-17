@@ -15,7 +15,7 @@ public class Wizard extends Character{
         setName(name);
         Random randomNumber = new Random();
         setAttack(8);
-        int startingHealth = setMaxHealth(randomNumber.nextInt(6,9)+1);
+        int startingHealth = setMaxHealth(randomNumber.nextInt(10,15)+1);
         setHealth(startingHealth);
         setType("Wizard");
         setMaxAttack(15);

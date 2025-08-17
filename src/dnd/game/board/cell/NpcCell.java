@@ -53,20 +53,25 @@ public class NpcCell extends Cell{
                         Menu.showMessage("Looks like you can't buy anything, come back later");
                     }else{
                         int index = menu.chooseItemToInteractWith("buy");
-                        double coinsSpent = npcInventory.getItemInInventory(index).getBuyingPrice();
-                        boolean purchaseSuccessful = characterInventory.spendCoins((int) coinsSpent);
-                        if (purchaseSuccessful) {
-                            Loot loot = npcInventory.getItemInInventory(index);
-                            if((character instanceof Warrior && loot instanceof Spell) || (character instanceof Wizard && loot instanceof Weapon)){
-                                Menu.showMessage("You cannot buy this category of item");
-                                characterInventory.addCoins((int)coinsSpent);
-                            }else{
-                                npcInventory.removeItemInInventory(index);
-                                npcInventory.addCoins((int) coinsSpent);
-                                characterInventory.addInventory(loot);
-                                Menu.showMessage("Your purchase was successful");
+                        if (index == -1){
+                            break;
+                        }else{
+                            double coinsSpent = npcInventory.getItemInInventory(index).getBuyingPrice();
+                            boolean purchaseSuccessful = characterInventory.spendCoins((int) coinsSpent);
+                            if (purchaseSuccessful) {
+                                Loot loot = npcInventory.getItemInInventory(index);
+                                if((character instanceof Warrior && loot instanceof Spell) || (character instanceof Wizard && loot instanceof Weapon)){
+                                    Menu.showMessage("You cannot buy this category of item");
+                                    characterInventory.addCoins((int)coinsSpent);
+                                }else{
+                                    npcInventory.removeItemInInventory(index);
+                                    npcInventory.addCoins((int) coinsSpent);
+                                    characterInventory.addInventory(loot);
+                                    Menu.showMessage("Your purchase was successful");
+                                }
                             }
                         }
+
                     }
                     break;
                 case 2:

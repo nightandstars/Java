@@ -31,15 +31,15 @@ public class LootCell extends Cell {
 
     /**
      * Checks the loot present on the cell against the character's type to meet certain conditions regarding weapons and spells, if the loot is a potion the character heals
-     * @param character the character that is being played
+     *
+     * @param character      the character that is being played
      * @param playerPosition the cell on which the character is
-     * @param board the board that is being played on
+     * @param board          the board that is being played on
      */
     @Override
     public void interact(Character character, int playerPosition, Board board) {
         Menu menu = new Menu();
         boolean isPickedUp = false;
-        if (character instanceof Warrior) {
             if (loot instanceof Weapon) {
                 if (character.getInventory().countWeaponsInInventory() < 2) {
                     character.getInventory().addInventory(loot);
@@ -53,22 +53,11 @@ public class LootCell extends Cell {
                         character.getInventory().replaceItemInInventory(index, loot);
                         isPickedUp = true;
                     }
-                }if(isPickedUp){
+                }
+                if (isPickedUp) {
                     board.replaceCell(playerPosition);
                 }
-            }
-        else if (loot instanceof Potion) {
-                isPickedUp = character.heal((Potion)loot);
-                if(isPickedUp){
-                    board.replaceCell(playerPosition);
-                }
-            }else{
-                Menu.showMessage("You cannot equip this item");
-            }
-        }
-
-        else if (character instanceof Wizard) {
-            if (loot instanceof Spell) {
+        } else if (loot instanceof Spell) {
                 if (character.getInventory().countSpellsInInventory() < 2) {
                     character.getInventory().addInventory(loot);
                     Menu.showMessage("The spell has been added to your inventory");
@@ -81,18 +70,18 @@ public class LootCell extends Cell {
                         character.getInventory().replaceItemInInventory(index, loot);
                         isPickedUp = true;
                     }
-                }if(isPickedUp){
+                }
+                if (isPickedUp) {
                     board.replaceCell(playerPosition);
                 }
-            } else if (loot instanceof Potion) {
-                isPickedUp = character.heal((Potion)loot);
-                if(isPickedUp){
+            }
+            else if (loot instanceof Potion) {
+                isPickedUp = character.heal((Potion) loot);
+                if (isPickedUp) {
                     board.replaceCell(playerPosition);
                 }
-            }else{
-                Menu.showMessage("You cannot equip this item");
             }
         }
-    }
+
 
 }
