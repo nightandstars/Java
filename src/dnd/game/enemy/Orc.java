@@ -5,7 +5,7 @@ package dnd.game.enemy;
  */
 public class Orc extends Enemy {
     public Orc(){
-        super("Orc", 6, 10, "Orc", 12);
+        super("Orc", 6, 10, "Orc", 11);
     }
 
     @Override

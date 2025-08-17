@@ -5,7 +5,7 @@ package dnd.game.enemy;
  */
 public class Dragon extends Enemy {
     public Dragon(){
-        super("Dragon", 4, 15, "Dragon", 15);
+        super("Dragon", 4, 15, "Dragon", 13);
     }
 
     @Override

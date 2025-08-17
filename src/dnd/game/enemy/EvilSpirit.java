@@ -5,7 +5,7 @@ package dnd.game.enemy;
  */
 public class EvilSpirit extends Enemy {
     public EvilSpirit(){
-        super("EvilSpirit", 4, 15, "EvilSpirit", 15);
+        super("EvilSpirit", 4, 15, "EvilSpirit", 13);
     }
 
     @Override
